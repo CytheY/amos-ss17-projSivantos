@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.Serialization;
 
 namespace HelloWorld
 {
@@ -14,14 +15,14 @@ namespace HelloWorld
     [DataContract]
     public class Request
     {
-        public Request(string methodName, Object parameter)
+        public Request(Command command, Object parameter)
         {
-            this.methodName = methodName;
+            this.command = command;
             this.parameter = parameter;
         }
 
         [DataMember]
-        public string methodName;
+        public Command command;
 
         [DataMember]
         public Object parameter;
