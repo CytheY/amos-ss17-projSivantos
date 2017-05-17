@@ -1,0 +1,14 @@
+version: 1.0.{build}
+branches:
+  only:
+  - Frontend_UnitTests
+image: Visual Studio 2017
+configuration: Debug
+platform: x64
+build:
+  project: raspberry-uc-system/RaspberryUserControlSystem/RaspberryUserConstrolSystem.sln
+  verbosity: normal
+test:
+  assemblies:
+    only:
+    - /raspberry-uc-system/RaspberryUserControlSystem/RaspberryBackendTests/Properties/AssemblyInfo.cs
