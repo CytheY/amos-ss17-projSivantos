@@ -9,8 +9,8 @@ namespace RaspberryBackendTests
     public class RequestControllerTests
     {
 
-
-        public void TestXMLSerializer()
+        [TestMethod]
+        public void TestXMLSerializerBackend()
         {
             Request req1 = new Request("read", 1);
             Request req2 = new Request("read", 1);
@@ -20,9 +20,9 @@ namespace RaspberryBackendTests
             string req2XML = Serializer.Serialize(req2);
             string req3XML = Serializer.Serialize(req3);
 
-
-            Assert.AreEqual(req1XML, req2XML);
-            Assert.AreNotEqual(req1XML, req3XML);
+            Assert.IsFalse(true);
+            //Assert.AreEqual(req1XML, req2XML);
+            //Assert.AreNotEqual(req1XML, req3XML);
 
         }
 
