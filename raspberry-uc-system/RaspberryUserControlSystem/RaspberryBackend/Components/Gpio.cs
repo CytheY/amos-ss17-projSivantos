@@ -46,12 +46,17 @@ namespace RaspberryBackend
             pin_ids["PIN_25"] = 25;  //PullDown
             pin_ids["PIN_26"] = 26;  //PullDown
             pin_ids["PIN_27"] = 27;  //PullDown
+        }
 
-            foreach(var pin in pin_ids.Keys)
+        //<summary>
+        //Inititializes the pins to "open".
+        //</summary>
+        public void initPins()
+        {
+            foreach (var pin in pin_ids.Keys)
             {
                 pins[pin_ids[pin]] = gpio.OpenPin(pin_ids[pin]);
             }
-
         }
 
         //<summary>
