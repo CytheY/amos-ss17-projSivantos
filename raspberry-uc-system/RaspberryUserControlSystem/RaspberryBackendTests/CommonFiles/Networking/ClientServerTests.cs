@@ -51,13 +51,5 @@ namespace RaspberryBackendTests
             Assert.AreEqual(request_2.command, _TESTCOMMAND_2);
             Assert.AreEqual(request_2.parameter, _TESTPARAM_2);
         }
-
-        [TestMethod]
-        [ExpectedException(typeof(NullReferenceException))]
-        public void TestNullRequest()
-        {
-            tcpClient.sendObject(null);
-            connection.receiveObject();
-        }
     }
 }
