@@ -54,15 +54,11 @@ namespace RaspberryBackend
                     //then, execute command
                     command.execute(request.parameter);
                 }
-                catch (ArgumentNullException ae)
+                catch (ArgumentNullException e)
                 {
-                    Debug.WriteLine("The requestet command was not found: " + ae.Message);
-                    throw new ArgumentNullException(ae.Message);
+                    throw new ArgumentNullException("The requested command was not found: " + request.command);
                 }
-                catch (Exception e)
-                {
-                    Debug.Write("Something went wrong :( " + e.Message);
-                }
+                
             }
 
             return command;

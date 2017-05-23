@@ -31,7 +31,7 @@ namespace RaspberryBackend
     public sealed partial class MainPage : Page
     {
 
-        //initialize hardware pins(can fail if no gpio stuff is connected)
+        /** FOR ACTUALLY CONNECTED BREADBOARD _PRODUCTION NEEDS TO BE TRUE **/
         private const Boolean _PRODUCTION = true;
 
         RequestController requestController = null;
@@ -45,9 +45,9 @@ namespace RaspberryBackend
             // set up request controller
             requestController = RequestController.Instance;
 
-            /** FOR ACTUALLY CONNECTED BREADBOARD _PRODUCTION NEEDS TO BE TRUE **/
             if (_PRODUCTION)
             {
+                //initialize hardware pins(can fail if no gpio stuff is connected)
                 try
                 {
                     gpiointerface.initPins();
@@ -103,7 +103,17 @@ namespace RaspberryBackend
                 Debug.WriteLine(string.Format("Received Request with content : (command= {0}) and (paramater= {1}) \n", request.command, request.parameter));
 
                 //Process Request
-                requestController.handleRequest(request);
+                try
+                {
+                    requestController.handleRequest(request);
+                }catch(ArgumentNullException e)
+                {
+                    Debug.Write(e.Message);
+                }catch (Exception e)
+                {
+                    Debug.Write("Something went wrong handling the Request :( " + e.Message);
+                }
+
             }
         }
     }
