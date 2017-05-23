@@ -30,12 +30,45 @@ namespace RaspberryBackend
     /// </summary>
     public sealed partial class MainPage : Page
     {
+
+        //initialize hardware pins(can fail if no gpio stuff is connected)
+        private const Boolean _PRODUCTION = true;
+
+        RequestController requestController = null;
+
         public MainPage()
         {
 
-            this.InitializeComponent();
+            // set up the gpio interface
+            GPIOinterface gpiointerface = new GPIOinterface();
+
+            // set up request controller
+            requestController = RequestController.Instance;
+
+            /** FOR ACTUALLY CONNECTED BREADBOARD _PRODUCTION NEEDS TO BE TRUE **/
+            if (_PRODUCTION)
+            {
+                try
+                {
+                    gpiointerface.initPins();
+                }
+                catch (Exception e)
+                {
+                    Debug.Fail(e.Message);
+
+                    //TODO: Does not work (??)
+                    Application.Current.Exit();
+                }
+            }
+           
+
+            //set the (inititialized) gpio Interface
+            requestController.GpioInterface = gpiointerface;
+
+            //Start listening for incoming requests
             runRequestServerAsync();
 
+            this.InitializeComponent();
         }
 
         private async Task runRequestServerAsync()
@@ -62,13 +95,15 @@ namespace RaspberryBackend
         {
             while (true)
             {
+                Debug.WriteLine("Awaiting Request...");
+
                 //Receive a Request from the client
                 Request request = conn.receiveObject();
 
                 Debug.WriteLine(string.Format("Received Request with content : (command= {0}) and (paramater= {1}) \n", request.command, request.parameter));
 
                 //Process Request
-                RequestController.Instance.handleRequest(request);
+                requestController.handleRequest(request);
             }
         }
     }
