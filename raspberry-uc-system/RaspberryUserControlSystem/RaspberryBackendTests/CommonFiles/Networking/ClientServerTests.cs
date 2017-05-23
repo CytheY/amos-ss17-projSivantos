@@ -57,6 +57,7 @@ namespace RaspberryBackendTests
         public void TestNullRequest()
         {
             tcpClient.sendObject(null);
+            connection.receiveObject();
         }
     }
 }
