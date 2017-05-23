@@ -51,12 +51,24 @@ namespace RaspberryBackend
                         command = createCommand(request);
                         Debug.Write(string.Format("Found the following Command in Request: '{0}' and instantiated it \n", command != null ? command.GetType().FullName : "none"));
                     }
-                    //then, execute command
-                    command.execute(request.parameter);
+                    //then, if gpioInterface is ready, execute command
+                    if (gpioInterface.Initialized)
+                    {
+                        command.execute(request.parameter);
+                    }
+                    else
+                    {
+                        throw new Exception("gpioInterface must be initialized.");
+                    }
+                   
                 }
                 catch (ArgumentNullException e)
                 {
                     throw new ArgumentNullException("The requested command was not found: " + request.command);
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.Message);
                 }
                 
             }
