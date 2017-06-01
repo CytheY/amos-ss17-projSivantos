@@ -4,7 +4,7 @@ namespace RaspberryBackend
 {
 
     /// <summary>
-    /// This class represents a Command. It it can be used to toggle the Backlight of a I2C connected LCD on the RaspberryPi. 
+    /// This class represents a Command. It it can be used to toggle the Backlight of a I2C connected LCD on the RaspberryPi.
     /// </summary>
     class ToggleBacklight_LCD : Command
     {
@@ -23,21 +23,20 @@ namespace RaspberryBackend
             {
                 Debug.WriteLine("Received command ToggleBacklightLCD On!");
                 switchToState(ON);
-
             }
             else if (requestedParameter.Equals("0"))
             {
                 Debug.WriteLine("Received command ToggleBacklightLCD Off!");
                 switchToState(OFF);
             }
-
-
         }
 
         private void switchToState(byte targetState)
+
         {
             RaspberryPi.setLCDBackgroundState(targetState);
             Debug.WriteLine("Backlight state changed!");
+            RaspberryPi.resetLCD();
         }
     }
 }
