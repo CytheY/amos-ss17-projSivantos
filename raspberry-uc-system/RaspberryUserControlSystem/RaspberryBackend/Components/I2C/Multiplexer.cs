@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Windows.Devices.Enumeration;
 using Windows.Devices.I2c;
 
-namespace RaspberryBackend.Data
+namespace RaspberryBackend
 {
     /// <summary>
     /// represents the physical multiplexer (currently using ADG2128)
