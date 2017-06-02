@@ -3,7 +3,7 @@
 namespace RaspberryBackend
 {
     /// <summary>
-    /// This class represents a Command. It it can be used to write on a spefic gpio pin of the RaspberryPi.
+    /// This class represents a Command. It it can be used to write on a spefic gpio pin of the RaspberryPi. 
     /// </summary>
     class WritePin : Command
     {
@@ -19,15 +19,17 @@ namespace RaspberryBackend
         public override void executeAsync(Object parameter)
         {
             UInt16 id = 0;
-
-            if (parameter.GetType() != typeof(UInt16))
+            if (parameter.GetType() == typeof(UInt16))
             {
-                ArgumentException e = new ArgumentException("The Paramete fo *WritePin* is not compatable with the paramer type: " + parameter.GetType());
-                throw e;
+                id = (UInt16)parameter;
+                RaspberryPi.activatePin(id);
             }
-            id = (UInt16)parameter;
-            RaspberryPi.activatePin(id);
+            else
+            {
+                return;
+            }
 
         }
+
     }
 }
