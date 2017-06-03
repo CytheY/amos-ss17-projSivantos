@@ -25,6 +25,7 @@ namespace RaspberryBackend
         private const byte MULTIPLEXER_I2C_ADDRESS = 0x70;
         private I2cDevice multiplexer;
         private Boolean _initialized = false;
+        private byte _DB15 = 0xF0;
 
 
         //private static I2cInstance;
@@ -81,9 +82,37 @@ namespace RaspberryBackend
 
         }
 
-        public void write(byte[] dataBuffer)
+        /// <summary>
+        /// Write to Mux
+        /// </summary>
+        /// <param name="dataBuffer"></param>
+        private void write(byte[] dataBuffer)
         {
             multiplexer.Write(dataBuffer);
+        }
+
+        /// <summary>
+        /// Connect pins xi to yi. Check for valid pins before (8x10 mux), then OR with _DB15
+        /// which effectively sets the MSB to 1 to close switches
+        /// </summary>
+        /// <param name="xi"></param>
+        /// <param name="yi"></param>
+        public void connectPins(int xi, int yi)
+        {
+            if (xi > 9 | yi > 7) return;
+            this.write(new Byte[] { (byte)( _DB15 | (byte)(xi << 4) | (byte)(yi)), (byte) 0 });
+        }
+
+        /// <summary>
+        /// Disconnect pins. We don't need to set _DB15 to 0, as leftshifting an int < 15
+        /// will effectifely set the MSB to 0, thus opening the switches in the mux
+        /// </summary>
+        /// <param name="xi"></param>
+        /// <param name="yi"></param>
+        public void disconnectPins(int xi, int yi)
+        {
+            if (xi > 9 | yi > 7) return;
+            this.write(new Byte[] { (byte)((byte)(xi << 4) | (byte)(yi)), (byte)0 });
         }
     }
 }

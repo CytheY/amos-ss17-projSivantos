@@ -135,7 +135,7 @@ namespace RaspberryBackend
         }
 
         /// <summary>
-        /// Return whether raspberrypi or it's hardware components are initialized
+        /// Return whether raspberrypi and it's hardware components are initialized
         /// </summary>
         /// <returns></returns>
         public Boolean isInitialized()
@@ -144,14 +144,14 @@ namespace RaspberryBackend
         }
 
         /// <summary>
-        /// Connect pins x to y on the multiplexer
+        /// Connect pins x to y on the multiplexer. Right now this is the same as _multiplexer.connectPins except no checks
+        /// are performed on the input parameters. Eventually we can check for success right here.
         /// </summary>
-        /// <param name="xi">Integer < 16</param>
-        /// <param name="yi">Integer < 16</param>
+        /// <param name="xi"></param>
+        /// <param name="yi">/param>
         public void connectPins(int xi, int yi)
         {
-            if (xi > 15 | yi > 15) return;
-            _multiplexer.write(new Byte[] { (byte) ( (byte) 128 | (byte)(xi << 4) | (byte)(yi)) });
+            _multiplexer.connectPins(xi, yi);
         }
     }
 }
