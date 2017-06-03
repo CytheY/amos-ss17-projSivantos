@@ -14,7 +14,9 @@ namespace RaspberryBackend
         /// </summary>
         public override void executeAsync(Object pinarray)
         {
-            RaspberryPi.connectPins(5, 5);
+            RaspberryPi.connectPins(5, 3);
+            RaspberryPi.connectPins(3, 5);
+
         }
     }
 }

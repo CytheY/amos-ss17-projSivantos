@@ -131,7 +131,6 @@ namespace RaspberryBackend
         /// <returns></returns>
         public string readPin(UInt16 id)
         {
-            //_gpioInterface.setToInput(id);
             return _gpioInterface.readPin(id);
         }
 
@@ -144,9 +143,15 @@ namespace RaspberryBackend
             return _initialized & _gpioInterface.isInitialized() & _lcdDisplay.isInitialized() & _potentiometer.isInitialized();
         }
 
-        public void connectPins(int x, int y)
+        /// <summary>
+        /// Connect pins x to y on the multiplexer
+        /// </summary>
+        /// <param name="xi">Integer < 16</param>
+        /// <param name="yi">Integer < 16</param>
+        public void connectPins(int xi, int yi)
         {
-            _multiplexer.write(new Byte[] {0xad});
+            if (xi > 15 | yi > 15) return;
+            _multiplexer.write(new Byte[] { (byte) ( (byte) 128 | (byte)(xi << 4) | (byte)(yi)) });
         }
     }
 }
