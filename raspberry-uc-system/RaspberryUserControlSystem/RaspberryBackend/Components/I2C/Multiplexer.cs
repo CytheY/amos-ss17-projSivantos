@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Devices.Enumeration;
+using Windows.Devices.Gpio;
 using Windows.Devices.I2c;
 
 namespace RaspberryBackend
@@ -25,13 +26,15 @@ namespace RaspberryBackend
         private const byte MULTIPLEXER_I2C_ADDRESS = 0x70;
         private I2cDevice multiplexer;
         private Boolean _initialized = false;
-        private byte _DB15 = 0xF0;
+        private byte _DB15 = 0x80;
+        private GpioPin _reset;
 
 
         //private static I2cInstance;
 
-        public Multiplexer()
+        public Multiplexer(GpioPin reset)
         {
+            _reset = reset;
             Task.Run(() => this.startI2C()).Wait();
             _initialized = true;
         }
@@ -45,6 +48,7 @@ namespace RaspberryBackend
                 string deviceSelector = I2cDevice.GetDeviceSelector(I2C_CONTROLLER_NAME);
                 var i2cDeviceControllers = await DeviceInformation.FindAllAsync(deviceSelector);
                 this.multiplexer = await I2cDevice.FromIdAsync(i2cDeviceControllers[0].Id, i2cSettings);
+                this.powerON();
             }
             catch (Exception e)
             {
@@ -72,14 +76,17 @@ namespace RaspberryBackend
         /// </summary>
         public void resetAll()
         {
-
+            this._reset.Write(GpioPinValue.Low);
+            Task.Delay(100).Wait();
+            this._reset.Write(GpioPinValue.High);
         }
         /// <summary>
         /// switch on all the channells (switches)
         /// </summary>
         public void powerON()
         {
-
+            this._reset.SetDriveMode(GpioPinDriveMode.Output);
+            this._reset.Write(GpioPinValue.High);
         }
 
         /// <summary>
@@ -100,7 +107,7 @@ namespace RaspberryBackend
         public void connectPins(int xi, int yi)
         {
             if (xi > 9 | yi > 7) return;
-            this.write(new Byte[] { (byte)( _DB15 | (byte)(xi << 4) | (byte)(yi)), (byte) 0 });
+            this.write(new Byte[] { (byte)( _DB15 | (byte)(xi << 3) | (byte)(yi)) });
         }
 
         /// <summary>
@@ -112,7 +119,7 @@ namespace RaspberryBackend
         public void disconnectPins(int xi, int yi)
         {
             if (xi > 9 | yi > 7) return;
-            this.write(new Byte[] { (byte)((byte)(xi << 4) | (byte)(yi)), (byte)0 });
+            this.write(new Byte[] { (byte)((byte)(xi << 3) | (byte)(yi)) });
         }
     }
 }

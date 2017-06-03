@@ -35,17 +35,16 @@ namespace RaspberryBackend
         public void initialize()
         {
             _gpioInterface = new GPIOinterface();
-            _lcdDisplay = new LCD();
-            _potentiometer = new Potentiometer();
-            _multiplexer = new Multiplexer();
-
             _gpioInterface.initPins();
-            _lcdDisplay.initiateLCD();
-            _initialized = true;
 
-            // Pull up the nreset pin of the Muxer so it works
-            // Pull this pin down to reset the Muxer
-            this.activatePin(18);
+            _lcdDisplay = new LCD();
+            _lcdDisplay.initiateLCD();
+
+            _potentiometer = new Potentiometer();
+
+            _multiplexer = new Multiplexer(_gpioInterface.getPin(18));
+
+            _initialized = true;
         }
 
         /// <summary>
