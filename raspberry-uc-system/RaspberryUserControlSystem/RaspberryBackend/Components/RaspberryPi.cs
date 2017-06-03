@@ -1,9 +1,11 @@
-﻿using RaspberryBackend.Data;
+﻿using RaspberryBackend.Components.SPI;
+using RaspberryBackend.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ABElectronics_Win10IOT_Libraries;
 
 
 namespace RaspberryBackend
@@ -18,6 +20,7 @@ namespace RaspberryBackend
         private LCD _lcdDisplay;
         private Potentiometer _potentiometer;
         private Multiplexer _multiplexer;
+        private ADConverter _adconverter;
         private int maxCharLCD = 16;
         private Boolean _initialized = false;
 
@@ -38,10 +41,22 @@ namespace RaspberryBackend
             _lcdDisplay = new LCD();
             _potentiometer = new Potentiometer();
             _multiplexer = new Multiplexer();
+            _adconverter = new ADConverter();
 
             _gpioInterface.initPins();
             _lcdDisplay.initiateLCD();
             _initialized = true;
+        }
+
+        /// <summary>
+        /// usage example:
+        /// turns ADConverter on with
+        /// 3.3V to the channel 2 with DAC voltage 1.5
+        /// </summary>
+        public void turnHI_on(byte channel, double referenceVoltage, double channelVoltage)
+        {
+            //_adconverter.initiate(2, 3.3, 1.5);
+            _adconverter.initiate(channel, referenceVoltage, channelVoltage);
         }
 
         /// <summary>
@@ -52,6 +67,7 @@ namespace RaspberryBackend
             _gpioInterface = null;
             _lcdDisplay = null;
             _potentiometer = null;
+            _adconverter = null;
         }
 
         /// <summary>

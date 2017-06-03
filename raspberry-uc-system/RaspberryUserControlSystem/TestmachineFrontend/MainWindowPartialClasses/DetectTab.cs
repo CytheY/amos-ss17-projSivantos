@@ -37,13 +37,13 @@ namespace TestmachineFrontend
 
         private void readPin_button_Click(object sender, RoutedEventArgs e)
         {
-           sendRequest(new Request("ReadPin", PinID));
+            sendRequest(new Request("ReadPin", PinID));
         }
 
         private void writePin_button_Click(object sender, RoutedEventArgs e)
         {
             sendRequest(new Request("WritePin", PinID));
-              
+
         }
 
         private void reset_button_Click(object sender, RoutedEventArgs e)
@@ -53,27 +53,28 @@ namespace TestmachineFrontend
 
         private void ledOFF_button_Click(object sender, RoutedEventArgs e)
         {
-           sendRequest(new Request("LightLED", 0));
+            sendRequest(new Request("LightLED", 0));
         }
 
         private void ledON_button_Click(object sender, RoutedEventArgs e)
         {
-               sendRequest(new Request("LightLED", 1));
+            sendRequest(new Request("LightLED", 1));
         }
 
         private void HI_ON_Click(object sender, RoutedEventArgs e)
         {
-                sendRequest(new Request("TurnOnHI", 127));
+            //sendRequest(new Request("TurnOnHI", 127));
+            sendRequest(new Request("TurnHIOn", 3.3));
         }
 
         private void HI_OFF_Click(object sender, RoutedEventArgs e)
         {
-               sendRequest(new Request("TurnOnHI", 0));
+            sendRequest(new Request("TurnOnHI", 0));
         }
 
         private void sendVoltageValue_Click(object sender, RoutedEventArgs e)
         {
-                sendRequest(new Request("TurnOnHI", sliderValue));
+            sendRequest(new Request("TurnOnHI", sliderValue));
         }
 
         private void setVoltage_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
