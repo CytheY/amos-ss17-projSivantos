@@ -42,6 +42,10 @@ namespace RaspberryBackend
             _gpioInterface.initPins();
             _lcdDisplay.initiateLCD();
             _initialized = true;
+
+            // Pull up the nreset pin of the Muxer so it works
+            // Pull this pin down to reset the Muxer
+            _gpioInterface.writePin(18, 1);
         }
 
         /// <summary>
