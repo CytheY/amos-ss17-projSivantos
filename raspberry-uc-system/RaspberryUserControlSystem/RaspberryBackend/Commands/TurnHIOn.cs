@@ -10,24 +10,20 @@ namespace RaspberryBackend.Commands
     class TurnHIOn : Command
     {
         /// <param name="channel">can be 1 or 2</param>
-        /// <param name="referenceVoltage">value between 0.0 and 7.0</param>
-        /// <param name="channelVoltage">can be between 0 and 2.047 volts</param>
+        /// <param name="DACVoltage">can be between 0 and 2.047 volts</param>
+        private static uint CHANNEL_1 = 1;
+        private static double MIN_VOLTAGE = 0.0;
+        private static double MAX_VOLTAGE = 2.047;
+        
 
-       
         public TurnHIOn(RaspberryPi raspberryPi) : base(raspberryPi)
         {
         }
 
         public override void executeAsync(object parameter)
         {
-            //List<double> paramList = (List<double>)parameter;
-            //byte channel = Convert.ToByte(paramList.ElementAt(0));
-            //double refVoltage = paramList.ElementAt(1);
-            //double chVoltage = paramList.ElementAt(2);
-            byte channel = 1;
-            double refVoltage = (double)parameter;
-            double chVoltage = 1.5;
-            RaspberryPi.turnHI_on(channel, refVoltage, chVoltage);
+            int voltage = (int) parameter;
+            RaspberryPi.turnHI_on(voltage);
         }
     }
 }
