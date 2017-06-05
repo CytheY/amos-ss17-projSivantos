@@ -21,19 +21,9 @@ namespace RaspberryBackend
         /// <param name="parameter">represents the GpioPin to read from</param>
         public override void executeAsync(Object parameter)
         {
-            UInt16 id = 0;
-            if (parameter.GetType() == typeof(UInt16))
-            {
-                id = (UInt16)parameter;
-                currentState = RaspberryPi.readPin(id);
-                Debug.WriteLine(string.Format("Pin {0} has currently the state: {1}", id, currentState));
-            }
-            else
-            {
-                return;
-            }
-
+            UInt16 id = (UInt16)parameter;
+            currentState = RaspberryPi.readPin(id);
+            Debug.WriteLine(string.Format("Pin {0} has currently the state: {1}", id, currentState));
         }
-
     }
 }

@@ -8,51 +8,61 @@ using System.Threading.Tasks;
 
 namespace CommonFiles.Networking
 {
+
     /// <summary>
-    /// Represents a TCP connection to a Server
+    /// Allows to send to a server and receive from a server
     /// </summary>
-    /// <typeparam name="T">Type of the Object, which will be transfered between client and server</typeparam>
-    public class ClientConn<T>
+    /// <typeparam name="inType">Type of Objects received from the server</typeparam>
+    /// <typeparam name="outType">Type of Objects send to the server</typeparam>
+    public class ClientConn<inType, outType>: IDisposable
     {
-       private ObjConn<T> conn;
-    
         /// <summary>
-        /// Creates a connection to a server
+        /// connects to a Server
         /// </summary>
         /// <param name="hostname">hostname of the server to connect to</param>
-        /// <param name="port">port of the server, to connect to</param>
-       public ClientConn(string hostname, int port)
-        {
-            connect(hostname, port);
-        }
-
-        private async void connect(string hostname, int port)
+        /// <param name="port">port of the server to connect to</param>
+        /// <returns></returns>
+        public static async Task<ClientConn<inType, outType>> connectAsync(string hostname, int port)
         {
             TcpClient socket = new TcpClient();
             await socket.ConnectAsync(hostname, port);
             NetworkStream stream = socket.GetStream();
-            conn = new ObjConn<T>(stream);
+            ObjConn<inType, outType> objConn = new ObjConn<inType, outType>(stream);
+            return new ClientConn<inType, outType>(objConn);
         }
-        
-        /// <summary>
-        /// Sends an Object of Type T to the connected Server
-        /// </summary>
-        /// <param name="obj">object which will be send to the server</param>
-        public void sendObject(T obj)
-        {
-            conn.sendObject(obj);
+
+        private ObjConn<inType, outType> objConn;
+
+        // private constructor to avoid instantiation without calling connect
+        private ClientConn(ObjConn<inType, outType> objConn) {
+            this.objConn = objConn;
         }
 
         /// <summary>
-        /// Receives an Object of Type T from the server
-        /// It is a blocking Operation
+        /// sends an Object of Type outType to the server
         /// </summary>
-        /// <returns>The Object of Type T received from the server</returns>
-        public T receiveObject()
+        /// <param name="obj"></param>
+        public void sendObject(outType obj)
         {
-            return conn.receiveObject();
+            objConn.sendObject(obj);
         }
 
+        /// <summary>
+        /// receives an Object of Type outType from the server
+        /// </summary>
+        /// <returns></returns>
+        public inType receiveObject()
+        {
+            return objConn.receiveObject();
+        }
+
+        /// <summary>
+        /// closes the connection
+        /// </summary>
+        public void Dispose()
+        {
+            objConn.Dispose();
+        }
     }
 }
 

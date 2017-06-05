@@ -28,13 +28,18 @@ namespace RaspberryBackend
         /// Note: At this point, only execution commands are content of the requests.
         /// </summary>
         /// <param name="request">the request information of the Frontend application</param>
-        public Command handleRequest(Request request)
+        /// <returns>
+        ///  Returns a Result which is instanciated with exceptionMessage == null, if the command could be executed without exception
+        ///  Returns a Result with exceptionMessage != null, if the command could not be executed without exception
+        /// </returns>
+        public Result handleRequest(Request request)
         {
             Command command = null;
 
-            if (request != null)
+            try
             {
-                try
+                //look if the command was already requested once, if not, create it. 
+                if (!Command.Instances.TryGetValue(request.command, out command))
                 {
                     //look if the command was already requested once, if not, create it.
                     if (!Command.Instances.TryGetValue(request.command, out command))
@@ -62,12 +67,27 @@ namespace RaspberryBackend
                 {
                     throw new ArgumentNullException("Requested command was not found: " + request.command);
                 }
-                catch (Exception e)
+                else
                 {
-                    Debug.WriteLine(e.Message);
+                    Debug.WriteLine("Requested command is already instantiated and the instance will be taken from the Dictonary" + "\n");
                 }
             }
-            return command;
+            catch (Exception e)
+            {
+                return new Result("Command could not be created");
+            }
+
+            try
+            {
+                command.executeAsync(request.parameter);
+            }
+            catch(Exception e)
+            {
+                return new Result(e.Message);
+            }
+
+            return new Result(null);      
+                
         }
 
         /// <summary>

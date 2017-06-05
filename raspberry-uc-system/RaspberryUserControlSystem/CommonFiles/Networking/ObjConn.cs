@@ -1,53 +1,49 @@
 ﻿using System;
-using System.IO;
 using System.Net.Sockets;
+using System.Text;
 
 namespace CommonFiles.Networking
 {
     /// <summary>
-    /// Represents a connection to a server, which allows to send and receive Objects of Type T
-    /// The Server has to use the same serialisation methods used in this implementation
+    /// Represents a TCP connection, which allows to send and receive Objects
     /// </summary>
-    /// <typeparam name="T">Type of The Object, wich will be send over the connection</typeparam>
-    public class ObjConn<T> : IDisposable
+    /// <typeparam name="inType"> Type of the Objects, which will be received over ObjConn</typeparam>
+    /// <typeparam name="outType"> Type of the Objects, which will be send over ObjConn </typeparam>
+    public class ObjConn<inType, outType> : IDisposable
     {
-        NetworkStream stream;
-        StreamReader reader;
-        StreamWriter writer;
+        DataConn dataConn;
 
         /// <summary>
-        /// Is initialised by streams which should already be initialised
+        /// creates the ObjConn from a stream. The stream should already be connected to the communication-partner
         /// </summary>
         /// <param name="stream">stream, the ObjConn will use for sending and receiving Objects</param>
         public ObjConn(NetworkStream stream)
         {
-            this.stream = stream;
-            reader = new StreamReader(stream);
-            writer = new StreamWriter(stream) { AutoFlush = true };
+            dataConn = new DataConn(stream);
         }
 
         /// <summary>
-        /// Serialises an object of type T into a String and writes the string on the outStream
+        /// Sends an Object of Type outType over the connection
         /// </summary>
         /// <param name="obj">object to send over the stream</param>
-        public void sendObject(T obj)
+        public void sendObject(outType obj)
         {
-            writer.WriteLine(Serializer.Serialize(obj));
+            dataConn.send(Encoding.ASCII.GetBytes(Serializer.Serialize(obj)));
         }
 
         /// <summary>
-        /// receives a String from the Stream and deserializes it into an Object of Type T
+        /// receives an Object from Type inType from the connection
         /// It is a blocking operation
         /// </summary>
         /// <returns>Object received from the stream</returns>
-        public T receiveObject()
+        public inType receiveObject()
         {
-            return (T)Serializer.Deserialize(reader.ReadLine(), typeof(T));
+            return (inType)Serializer.Deserialize(Encoding.ASCII.GetString(dataConn.receive()), typeof(inType));
         }
 
         public void Dispose()
         {
-            stream.Dispose();
+            dataConn.Dispose();
         }
     }
 }

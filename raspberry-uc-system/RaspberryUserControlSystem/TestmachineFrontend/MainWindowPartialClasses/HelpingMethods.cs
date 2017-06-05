@@ -21,11 +21,31 @@ namespace TestmachineFrontend
             try
             {
                 clientConnection.sendObject(request);
-                this.addMessage(request.command, "Request sent");
             }
             catch (Exception ex)
             {
                 this.addMessage(request.command, "Request could not be sent: " + ex.Message);
+                return;
+            }
+
+            Result result;
+
+            try
+            {
+                result = clientConnection.receiveObject();
+            }catch(Exception e)
+            {
+                this.addMessage(request.command, "Result could not be received: " + e.Message);
+                return;
+            }
+
+            if (result.exceptionMessage == null)
+            {
+                this.addMessage(request.command, "sucess");
+            }
+            else
+            {
+                this.addMessage(request.command, result.exceptionMessage);
             }
         }
     }
