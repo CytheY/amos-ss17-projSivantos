@@ -38,13 +38,17 @@ namespace RaspberryBackend
         public void initialize()
         {
             _gpioInterface = new GPIOinterface();
+            _gpioInterface.initPins();
+
             _lcdDisplay = new LCD();
+            _lcdDisplay.initiateLCD();
+
             _potentiometer = new Potentiometer();
             _multiplexer = new Multiplexer();
             _adconverter = new ADConverter();
 
-            _gpioInterface.initPins();
-            _lcdDisplay.initiateLCD();
+            _multiplexer = new Multiplexer(_gpioInterface.getPin(18));
+
             _initialized = true;
         }
 
@@ -143,12 +147,11 @@ namespace RaspberryBackend
         /// <returns></returns>
         public string readPin(UInt16 id)
         {
-            //_gpioInterface.setToInput(id);
             return _gpioInterface.readPin(id);
         }
 
         /// <summary>
-        /// Return whether raspberrypi or it's hardware components are initialized
+        /// Return whether raspberrypi and it's hardware components are initialized
         /// </summary>
         /// <returns></returns>
         public Boolean isInitialized()
@@ -156,9 +159,15 @@ namespace RaspberryBackend
             return _initialized & _gpioInterface.isInitialized() & _lcdDisplay.isInitialized() & _potentiometer.isInitialized();
         }
 
-        public void connectPins(int x, int y)
+        /// <summary>
+        /// Connect pins x to y on the multiplexer. Right now this is the same as _multiplexer.connectPins except no checks
+        /// are performed on the input parameters. Eventually we can check for success right here.
+        /// </summary>
+        /// <param name="xi"></param>
+        /// <param name="yi">/param>
+        public void connectPins(int xi, int yi)
         {
-            _multiplexer.write(new Byte[] {0xad});
+            _multiplexer.connectPins(xi, yi);
         }
     }
 }

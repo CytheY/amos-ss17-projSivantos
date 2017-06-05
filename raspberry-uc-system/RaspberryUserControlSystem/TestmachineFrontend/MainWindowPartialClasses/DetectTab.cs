@@ -1,10 +1,6 @@
 ﻿using CommonFiles.Networking;
 using CommonFiles.TransferObjects;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace TestmachineFrontend
@@ -65,6 +61,8 @@ namespace TestmachineFrontend
         {
             //sendRequest(new Request("TurnOnHI", 127));
             sendRequest(new Request("TurnHIOn", 3.3));
+            //Not yet implemented
+            //sendRequest(new Request("TurnOnHI", x));
         }
 
         private void HI_OFF_Click(object sender, RoutedEventArgs e)
@@ -77,21 +75,27 @@ namespace TestmachineFrontend
             sendRequest(new Request("TurnOnHI", sliderValue));
         }
 
-        private void setVoltage_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void setVolume_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            sliderValue = Convert.ToByte(setVoltage_Slider.Value);
+            sliderValue = Convert.ToByte(setVolume_Slider.Value);
         }
 
         private byte sliderValue = 0;
 
-        private void setVoltage_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void setVolume_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            sliderValue = Convert.ToByte(setVoltage_Slider.Value);
+            sliderValue = Convert.ToByte(setVolume_Slider.Value);
         }
 
         private void connect_Pins_Click(object sender, RoutedEventArgs e)
         {
             sendRequest(new Request("ConnectPins", 0));
+        }
+
+
+        private void sendVolumeLevel_Button_Click(object sender, RoutedEventArgs e)
+        {
+            sendRequest(new Request("SetAnalogVolume", sliderValue));
         }
     }
 }
