@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestmachineFrontend"
+        xmlns:data="clr-namespace:TestmachineFrontend"
         mc:Ignorable="d"
         Title="{Binding DeviceName}" Height="500" Width="550"
         MaxHeight="500" MaxWidth="550">
@@ -184,6 +185,24 @@
                     <Button Name="sampleGT32Button"  Margin="25,0,272,0" Click="sampleGT32Button_Click">SampleText > 32 Chars</Button>
                 </StackPanel>
 
+            </TabItem>
+
+            <TabItem Header="Mux 55">
+                <Grid Background="AliceBlue" Margin="5,5,5,5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="107*"/>
+                        <RowDefinition Height="102*"/>
+                    </Grid.RowDefinitions>
+                    <Label Content="x: " HorizontalAlignment="Left" Margin="98,48,0,0" VerticalAlignment="Top"/>
+                    <Label Content="y: " HorizontalAlignment="Left" Margin="303,48,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="valueX" HorizontalAlignment="Left" Height="26" 
+                             Margin="135,52,0,0" TextWrapping="Wrap" Text="{Binding Path=ValueX}" VerticalAlignment="Top" Width="59"/>
+                    <TextBox x:Name="valueY" HorizontalAlignment="Left" Height="26" 
+                             Margin="353,52,0,0" TextWrapping="Wrap" Text="{Binding Path=ValueY}" VerticalAlignment="Top" Width="59"/>
+                    <Button Name="setPinsButton" Content="Set pins" Click="setPinsButton_Click"
+                            HorizontalAlignment="Left" Margin="223,103,0,0" VerticalAlignment="Top" Width="85" Height="28"/>
+
+                </Grid>
             </TabItem>
         </TabControl>
         <ListView x:Name="debug" HorizontalAlignment="Left"
