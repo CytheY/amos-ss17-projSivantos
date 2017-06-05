@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestmachineFrontend"
+        xmlns:data="clr-namespace:TestmachineFrontend"
         mc:Ignorable="d"
         Title="{Binding DeviceName}" Height="544.444" MinHeight="500" Width="550"
          MaxWidth="550">
@@ -71,7 +72,7 @@
                         Margin="75,166.5,74,28"
                         Content="HI ON" Grid.Row="1"  Click="HI_ON_Click" RenderTransformOrigin="1.369,-0.363" />
 
-                    <Slider x:Name="setVoltage_Slider" 
+                    <Slider x:Name="setVolume_Slider"
                             Maximum="127"
                             Minimum="0"
                             ValueChanged="setVoltage_ValueChanged" 
@@ -107,18 +108,18 @@
                             IsEnabled="False"/>
                     <Button Grid.Row="0"  Margin="195,17,256,58.5" Content="RSD"/>
                     <Button Grid.Row="0"  Margin="278,17,173,58.5" Content="RSU"/>
-                    <CheckBox x:Name="checkBox" HorizontalAlignment="Left" 
+                    <CheckBox x:Name="checkBox" HorizontalAlignment="Left"
                               Margin="369,23,0,0" VerticalAlignment="Top" Height="15" Width="16"/>
-                    <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="31" 
-                             Margin="395,17,0,0" TextWrapping="Wrap" Text="{Binding //TODO}" 
+                    <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="31"
+                             Margin="395,17,0,0" TextWrapping="Wrap" Text="{Binding //TODO}"
                              VerticalAlignment="Top" Width="59" IsEnabled="False"/>
                     <TextBlock Grid.Row="0" Margin="468,23,6,58.5"><Run Text="ms"/></TextBlock>
-                    <RadioButton x:Name="radioButton1" HorizontalAlignment="Left" 
+                    <RadioButton x:Name="radioButton1" HorizontalAlignment="Left"
                                  Margin="126,63,0,0" VerticalAlignment="Top"
                                  IsChecked="True" IsEnabled="False" Height="14" Width="15"/>
-                    <RadioButton x:Name="radioButton2" HorizontalAlignment="Left" 
+                    <RadioButton x:Name="radioButton2" HorizontalAlignment="Left"
                         Margin="211,63,0,0" VerticalAlignment="Top" Height="14" Width="15"/>
-                    <RadioButton x:Name="radioButton3" HorizontalAlignment="Left" 
+                    <RadioButton x:Name="radioButton3" HorizontalAlignment="Left"
                         Margin="293,63,0,0" VerticalAlignment="Top" IsChecked="True" Height="14" Width="15"/>
                     <Button Grid.Row="0"  Margin="360,63,74,7.5" Content="Combi"
                         IsEnabled="False"/>
@@ -136,38 +137,38 @@
                     <TextBlock Grid.Row="1" Margin="138,31.5,329,40.5"><Run Text="Down"/></TextBlock>
                     <TextBlock Grid.Row="1" Margin="223,31.5,252,40.5"><Run Text="Up"/></TextBlock>
                     <TextBlock Grid.Row="1" Margin="315,31.5,145,40.5"><Run Text="Ticks"/></TextBlock>
-                    <RadioButton x:Name="radioButton4" HorizontalAlignment="Left" 
+                    <RadioButton x:Name="radioButton4" HorizontalAlignment="Left"
                         Margin="144,63.5,0,0" VerticalAlignment="Top" IsChecked="True" Grid.Row="1" Height="14" Width="15"/>
-                    <RadioButton x:Name="radioButton5" HorizontalAlignment="Left" 
-                        Margin="221,63.5,0,0" VerticalAlignment="Top" IsChecked="False" 
+                    <RadioButton x:Name="radioButton5" HorizontalAlignment="Left"
+                        Margin="221,63.5,0,0" VerticalAlignment="Top" IsChecked="False"
                                  Grid.Row="1" RenderTransformOrigin="4.78,0.614" Height="14" Width="15"/>
-                    <TextBox x:Name="textBox2" HorizontalAlignment="Left" Height="28" 
-                        Margin="301,59.5,0,0" TextWrapping="Wrap" Text="{Binding //TODO}" 
+                    <TextBox x:Name="textBox2" HorizontalAlignment="Left" Height="28"
+                        Margin="301,59.5,0,0" TextWrapping="Wrap" Text="{Binding //TODO}"
                         VerticalAlignment="Top" Width="47" IsEnabled="False" Grid.Row="1"/>
                     <Button Grid.Row="1"  Margin="399,59.5,48,7.5" Content="Turn"
                         IsEnabled="False"/>
                     <TextBlock Grid.Row="1" Margin="411,6.5,63,75.5"><Run Text="0"/></TextBlock>
                     <TextBlock Grid.Row="2" Margin="411,66.5,63,15"><Run Text="0"/></TextBlock>
-                    <Ellipse Fill="White" HorizontalAlignment="Left" Height="40" 
-                             Margin="29,2.5,0,0" Grid.Row="2" Stroke="Black" 
+                    <Ellipse Fill="White" HorizontalAlignment="Left" Height="40"
+                             Margin="29,2.5,0,0" Grid.Row="2" Stroke="Black"
                              VerticalAlignment="Top" Width="40"/>
-                    <Ellipse Fill="White" HorizontalAlignment="Left" Height="40" 
-                        Margin="81,2.5,0,0" Grid.Row="2" Stroke="Black" 
+                    <Ellipse Fill="White" HorizontalAlignment="Left" Height="40"
+                        Margin="81,2.5,0,0" Grid.Row="2" Stroke="Black"
                         VerticalAlignment="Top" Width="40"/>
-                    <Ellipse Fill="AliceBlue" HorizontalAlignment="Left" Height="40" 
-                        Margin="131,2.5,0,0" Grid.Row="2" Stroke="Black" 
+                    <Ellipse Fill="AliceBlue" HorizontalAlignment="Left" Height="40"
+                        Margin="131,2.5,0,0" Grid.Row="2" Stroke="Black"
                         VerticalAlignment="Top" Width="40"/>
                     <TextBlock Grid.Row="2" Margin="39,47.5,441,33"><Run Text="I/O"/></TextBlock>
                     <TextBlock Grid.Row="2" Margin="86,47.5,388,33"><Run Text="LED"/></TextBlock>
                     <TextBlock Grid.Row="2" Margin="135,47.5,326,33"><Run Text="Sound"/></TextBlock>
                     <TextBlock Grid.Row="2" Margin="45,72.5,416,8"><Run Text="Power"/></TextBlock>
-                    <CheckBox x:Name="checkBox2" HorizontalAlignment="Left" 
+                    <CheckBox x:Name="checkBox2" HorizontalAlignment="Left"
                         Margin="131,76.5,0,0" VerticalAlignment="Top" Grid.Row="2" Height="15" Width="16"/>
                     <TextBlock Grid.Row="2" Margin="211,21.5,254,64"><Run Text="Beeps"/></TextBlock>
-                    <CheckBox x:Name="checkBox3" HorizontalAlignment="Left" 
+                    <CheckBox x:Name="checkBox3" HorizontalAlignment="Left"
                         Margin="261,24.5,0,0" VerticalAlignment="Top" Grid.Row="2" Height="15" Width="16"/>
-                    <TextBox x:Name="textBox3" HorizontalAlignment="Left" Height="28" 
-                        Margin="301,21.5,0,0" TextWrapping="Wrap" Text="{Binding //TODO}" 
+                    <TextBox x:Name="textBox3" HorizontalAlignment="Left" Height="28"
+                        Margin="301,21.5,0,0" TextWrapping="Wrap" Text="{Binding //TODO}"
                         VerticalAlignment="Top" Width="47" IsEnabled="False" Grid.Row="2"/>
                 </Grid>
             </TabItem>
@@ -190,6 +191,24 @@
                     <Button Name="sampleGT32Button"  Margin="25,0,272,0" Click="sampleGT32Button_Click">SampleText > 32 Chars</Button>
                 </StackPanel>
 
+            </TabItem>
+
+            <TabItem Header="Mux 55">
+                <Grid Background="AliceBlue" Margin="5,5,5,5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="107*"/>
+                        <RowDefinition Height="102*"/>
+                    </Grid.RowDefinitions>
+                    <Label Content="x: " HorizontalAlignment="Left" Margin="98,48,0,0" VerticalAlignment="Top"/>
+                    <Label Content="y: " HorizontalAlignment="Left" Margin="303,48,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="valueX" HorizontalAlignment="Left" Height="26" 
+                             Margin="135,52,0,0" TextWrapping="Wrap" Text="{Binding Path=ValueX}" VerticalAlignment="Top" Width="59"/>
+                    <TextBox x:Name="valueY" HorizontalAlignment="Left" Height="26" 
+                             Margin="353,52,0,0" TextWrapping="Wrap" Text="{Binding Path=ValueY}" VerticalAlignment="Top" Width="59"/>
+                    <Button Name="setPinsButton" Content="Set pins" Click="setPinsButton_Click"
+                            HorizontalAlignment="Left" Margin="223,103,0,0" VerticalAlignment="Top" Width="85" Height="28"/>
+
+                </Grid>
             </TabItem>
         </TabControl>
         <ListView x:Name="debug" HorizontalAlignment="Left"  MinHeight="95" Margin="14,352,0,-92" Width="513">
