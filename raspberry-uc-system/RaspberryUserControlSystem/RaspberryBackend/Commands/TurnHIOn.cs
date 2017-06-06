@@ -9,10 +9,6 @@ namespace RaspberryBackend
 {
     class TurnHIOn : Command
     {
-        private readonly double MIN_VOLTAGE = 0.0;
-        private readonly double MAX_VOLTAGE = 2.047;
-
-
         public TurnHIOn(RaspberryPi raspberryPi) : base(raspberryPi)
         {
         }
