@@ -63,7 +63,7 @@ namespace RaspberryBackend
         /// </summary>
         public void turnHI_on(double voltage)
         {
-            _daConverter.initiate(voltage);
+            _daConverter.setDACVoltage(voltage);
         }
 
         /// <summary>

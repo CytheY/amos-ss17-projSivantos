@@ -21,24 +21,22 @@ namespace RaspberryBackend.Components.SPI
         private readonly double MIN_VOLTAGE = 0.0;
         private readonly double MAX_VOLTAGE = 2.047;
 
+
         public ADCDAC()
         {
             adcdac = new ADCDACPi();
         }
 
         /// <summary>
-        /// connect to device and set
-        /// reference and channel voltages to the channel
+        /// connect to device
         /// </summary>
-        /// <param name="voltage">can be between 0 and 2.047 volts</param>
         public void connect()
         {
 
-            Debug.WriteLine("wait for connection");
+            Debug.WriteLine("Connecting to SPI Device...");
+
             Task.Run(() => adcdac.Connect()).Wait();
-
             Task.Delay(5000).Wait();
-
 
             Debug.WriteLine("Conntected Status is: " + adcdac.IsConnected);
 
@@ -46,10 +44,21 @@ namespace RaspberryBackend.Components.SPI
             {
                 throw new Exception("ADCDAC Connection failure.");
             }
-
-            Debug.WriteLine("Ready for setting DA");
+            else
+            {
+                Debug.WriteLine("DACDAC is ready for setting voltages!");
+            }
         }
 
+        public bool isConnected()
+        {
+            return adcdac.IsConnected;
+        }
+
+        /// <summary>
+        /// method to set the DAC voltage on the ADCDAC Channel 1
+        /// </summary>
+        /// <param name="voltage">can be between 0 and 2.047 volts</param>
         public void setDACVoltage(double voltage)
         {
             if(voltage > MAX_VOLTAGE)
