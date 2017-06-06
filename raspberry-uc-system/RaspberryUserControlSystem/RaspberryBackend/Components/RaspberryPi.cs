@@ -1,5 +1,4 @@
-﻿using RaspberryBackend.Components.SPI;
-using RaspberryBackend.Data;
+﻿using RaspberryBackend.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +29,10 @@ namespace RaspberryBackend
             get { return _instance; }
         }
 
+        public object GpioInterface { get; internal set; }
+        public object LcdDisplay { get; internal set; }
+        public object Potentiometer { get; internal set; }
+
         private RaspberryPi() { }
 
         /// <summary>
@@ -47,7 +50,7 @@ namespace RaspberryBackend
             _potentiometer = new Potentiometer();
 
             _daConverter = new ADCDAC();
-            _daConverter.connect();
+            _daConverter.init();
 
             _multiplexer = new Multiplexer(_gpioInterface.getPin(18));
 
