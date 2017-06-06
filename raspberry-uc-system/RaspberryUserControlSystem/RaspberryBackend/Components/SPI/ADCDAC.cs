@@ -31,12 +31,12 @@ namespace RaspberryBackend
         private void connect()
         {
 
-            Debug.WriteLine("Connecting to SPI Device...");
+            Debug.WriteLine(this.GetType().Name + "::: Connecting to SPI Device...");
 
             Task.Run(() => adcdac.Connect()).Wait();
             Task.Delay(5000).Wait();
 
-            Debug.WriteLine("Conntected Status is: " + adcdac.IsConnected);
+            Debug.WriteLine(this.GetType().Name + "::: Conntected Status is: " + adcdac.IsConnected);
 
             if(adcdac.IsConnected == false)
             {
@@ -44,7 +44,7 @@ namespace RaspberryBackend
             }
             else
             {
-                Debug.WriteLine("DACDAC is ready for setting voltages!");
+                Debug.WriteLine(this.GetType().Name + "::: DACDAC is ready for setting voltages!");
             }
         }
 
