@@ -55,7 +55,10 @@ namespace RaspberryBackend
         /// </summary>
         public void init()
         {
+
             connect();
+
+            Debug.WriteLine(this.GetType().Name + "::: Setting DACVoltage to standard 1.0 volts.");
             setDACVoltage(STANDARD_VOLTAGE);
         }
 
