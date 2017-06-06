@@ -127,19 +127,21 @@
                         IsEnabled="False"/>
 
                     <TextBlock Grid.Row="1" Margin="25,3.5,401,71.5"><Run Text="DACVoltage"/></TextBlock>
-                    <TextBlock Grid.Row="1" Margin="108,4,318,71"><Run Text="0.0 Volt"/></TextBlock>
+                    <TextBlock Grid.Row="1" Margin="96,4,330,71"><Run Text="0.0 Volt"/></TextBlock>
                     <Slider Name="vcSlider" 
                             Maximum="1.5"
                             Minimum="0.0"
+                            TickPlacement="BottomRight"
                             IsSnapToTickEnabled="True"
                             TickFrequency="0.1"
                             Thumb.DragStarted="vcSlider_DragStarted"
                             Thumb.DragCompleted="vcSlider_DragCompleted"
                             ValueChanged="vcSlider_ValueChanged" 
-                            Margin="156,4,82,71"
+                            Margin="144,4,94,71"
                             Background="AliceBlue" 
                             Grid.Row="1"/>
-                    
+                    <TextBox IsReadOnly = "True" Text="{Binding ElementName=vcSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Margin="455,4,23,71" Grid.Row="1" />
+                    <TextBlock Grid.Row="1" Margin="479,5,9,78"><Run Text="V"/></TextBlock>
                     <Slider Grid.Row="2" x:Name="soundSlider" Thumb.DragStarted="soundSlider_DragStarted"
                         Thumb.DragCompleted="soundSlider_DragCompleted"
                         ValueChanged="soundSlider_ValueChanged" Margin="196,63.5,125,10"
@@ -158,7 +160,7 @@
                         VerticalAlignment="Top" Width="47" IsEnabled="False" Grid.Row="1"/>
                     <Button Grid.Row="1"  Margin="399,59.5,48,7.5" Content="Turn"
                         IsEnabled="False"/>
-                    <TextBlock Grid.Row="1" Margin="435,4,22,78"><Run Text="1.5 Volt"/></TextBlock>
+                    <TextBlock Grid.Row="1" Margin="403,4,54,78"><Run Text="1.5 Volt"/></TextBlock>
                     <TextBlock Grid.Row="2" Margin="411,66.5,63,15"><Run Text="0"/></TextBlock>
                     <Ellipse Fill="White" HorizontalAlignment="Left" Height="40"
                              Margin="29,2.5,0,0" Grid.Row="2" Stroke="Black"
