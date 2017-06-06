@@ -14,18 +14,16 @@ namespace RaspberryBackend.Components.SPI
     /// </summary>
     public class ADCDAC
     {
-        private ADCDACPi adcdac;
+        private ADCDACPi adcdac = new ADCDACPi();;
 
-        private static byte CHANNEL = 0x1;
-
+        private readonly byte CHANNEL = 0x1;
         private readonly double MIN_VOLTAGE = 0.0;
         private readonly double MAX_VOLTAGE = 2.047;
+        private readonly double STANDARD_VOLTAGE = 1.0;
 
+        private double currentDACVoltage = -1;
 
-        public ADCDAC()
-        {
-            adcdac = new ADCDACPi();
-        }
+        public ADCDAC(){}
 
         /// <summary>
         /// connect to device
@@ -50,6 +48,14 @@ namespace RaspberryBackend.Components.SPI
             }
         }
 
+        /// <summary>
+        /// initializes the DACVoltage to a common value, here 1.0 volts
+        /// </summary>
+        public void init()
+        {
+            setDACVoltage(STANDARD_VOLTAGE);
+        }
+
         public bool isConnected()
         {
             return adcdac.IsConnected;
@@ -72,7 +78,13 @@ namespace RaspberryBackend.Components.SPI
             if (adcdac.IsConnected)
             {
                 adcdac.SetDACVoltage(CHANNEL, voltage);
+                currentDACVoltage = voltage;
             }
+        }
+
+        public double getDACVoltage()
+        {
+            return currentDACVoltage;
         }
     }
 }
