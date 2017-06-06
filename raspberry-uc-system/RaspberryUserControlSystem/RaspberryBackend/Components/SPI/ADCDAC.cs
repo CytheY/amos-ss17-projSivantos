@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using ABElectronics_Win10IOT_Libraries;
 using System.Diagnostics;
 
-namespace RaspberryBackend.Components.SPI
+namespace RaspberryBackend
 {
     /// <summary>
     /// Software representation of the A/D Converter
@@ -14,11 +14,11 @@ namespace RaspberryBackend.Components.SPI
     /// </summary>
     public class ADCDAC
     {
-        private ADCDACPi adcdac = new ADCDACPi();;
+        private ADCDACPi adcdac = new ADCDACPi();
 
         private readonly byte CHANNEL = 0x1;
         private readonly double MIN_VOLTAGE = 0.0;
-        private readonly double MAX_VOLTAGE = 2.047;
+        private readonly double MAX_VOLTAGE = 1.5;
         private readonly double STANDARD_VOLTAGE = 1.0;
 
         private double currentDACVoltage = -1;
@@ -28,7 +28,7 @@ namespace RaspberryBackend.Components.SPI
         /// <summary>
         /// connect to device
         /// </summary>
-        public void connect()
+        private void connect()
         {
 
             Debug.WriteLine("Connecting to SPI Device...");
@@ -49,10 +49,13 @@ namespace RaspberryBackend.Components.SPI
         }
 
         /// <summary>
-        /// initializes the DACVoltage to a common value, here 1.0 volts
+        /// initializes the DACVoltage
+        /// connects to the ADCDAC Device 
+        /// sets DACVoltage to a standard value, here 1.0 volts
         /// </summary>
         public void init()
         {
+            connect();
             setDACVoltage(STANDARD_VOLTAGE);
         }
 
@@ -75,11 +78,13 @@ namespace RaspberryBackend.Components.SPI
                 voltage = MIN_VOLTAGE;
             }
 
+            //happens only if ADCDAC is actually connected
             if (adcdac.IsConnected)
             {
                 adcdac.SetDACVoltage(CHANNEL, voltage);
-                currentDACVoltage = voltage;
             }
+
+            currentDACVoltage = voltage;
         }
 
         public double getDACVoltage()
