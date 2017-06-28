@@ -11,15 +11,15 @@ namespace RaspberryBackend
     /// This static class parses the given XML Multiplexer configuration file
     /// and stores all possible multiplexer configurations in a dictionary
     /// </summary>
-    static class MultiplexerConfigParser
+    static class HiXmlParser
     {
-        private static Dictionary<string, Dictionary<List<string>, MultiplexerConfig>> hi_dictionary = new Dictionary<string, Dictionary<List<string>, MultiplexerConfig>>();
+        private static Dictionary<string, Dictionary<List<string>, HiType>> hi_dictionary = new Dictionary<string, Dictionary<List<string>, HiType>>();
 
         private const string _CONFIG_PATH = "Data/config/PinOutInfo.xml";
 
         private static XDocument config;
 
-        static MultiplexerConfigParser()
+        static HiXmlParser()
         {
             config = XDocument.Load(_CONFIG_PATH);
             buildDictionary();
@@ -34,7 +34,7 @@ namespace RaspberryBackend
 
                 string family_name = familyElement.Attribute("name").Value;
 
-                Dictionary<List<string>, MultiplexerConfig> tmp = new Dictionary<List<string>, MultiplexerConfig>();
+                Dictionary<List<string>, HiType> tmp = new Dictionary<List<string>, HiType>();
 
                 IEnumerable<XNode> modelNodes = familyElement.Nodes();
                 foreach (XElement modelElement in modelNodes)
@@ -57,7 +57,7 @@ namespace RaspberryBackend
                         pin_value_list.Add(pin_value);
                     }
 
-                    MultiplexerConfig pin_config = new MultiplexerConfig(family_name, model_names_string, pin_value_list);
+                    HiType pin_config = new HiType(family_name, model_names_string, pin_value_list);
 
                     tmp.Add(model_names_list, pin_config);
                 }
@@ -71,16 +71,16 @@ namespace RaspberryBackend
         /// <param name="family">family name of the HI, e.g.: "Pure"</param>
         /// <param name="model_name">model name of the HI: e.g: "312 702 S (DN)"</param>
         /// <returns>
-        /// Returns a MultiplexerConfig Object
+        /// Returns a HiType Object
         /// Returns null if the specified HI is not found
         /// </returns>
-        public static MultiplexerConfig getMultiplexerConfig(string family, string model_name)
+        public static HiType getMultiplexerConfig(string family, string model_name)
         {
             if (hi_dictionary.ContainsKey(family))
             {
-                Dictionary<List<string>, MultiplexerConfig> family_dic = hi_dictionary[family];
+                Dictionary<List<string>, HiType> family_dic = hi_dictionary[family];
 
-                MultiplexerConfig multiplex_config = null;
+                HiType multiplex_config = null;
                 bool model_found = false;
 
                 foreach (List<string> model_names in family_dic.Keys)
@@ -116,7 +116,7 @@ namespace RaspberryBackend
                 sb.Append("Family " + familyName + ":");
                 sb.Append("\n");
 
-                Dictionary<List<string>, MultiplexerConfig> model_dic = hi_dictionary[familyName];
+                Dictionary<List<string>, HiType> model_dic = hi_dictionary[familyName];
 
                 foreach (List<string> model_names in model_dic.Keys)
                 {
@@ -130,7 +130,7 @@ namespace RaspberryBackend
 
                     sb.Append("\n");
 
-                    MultiplexerConfig config_obj = model_dic[model_names];
+                    HiType config_obj = model_dic[model_names];
                     Dictionary<int, string> config_map = config_obj.X_Pin_To_Value_Map;
 
                     sb.Append("\tConfig: ");

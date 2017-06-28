@@ -6,10 +6,8 @@ namespace RaspberryBackend
     /// <summary>
     /// Represents the multiplexer configuration for a specific HI 
     /// </summary>
-    class MultiplexerConfig
+    class XPinConfig
     {
-        private string _family;
-        private string _model_name;
         private Dictionary<int, string> _x_pin_to_value_map;
 
         /// <summary>
@@ -18,10 +16,8 @@ namespace RaspberryBackend
         /// <param name="family">family name of the HI, e.g.: "Pure"</param>
         /// <param name="model_name">model name of the HI: e.g: "312 702 S (DN)"</param>
         /// <param name="value_list">A List containing all possible HI function, e.g.: ["RockerSW","Ground","PB",...]</param>
-        public MultiplexerConfig(string family, string model_name, List<string> value_list)
+        public XPinConfig(string family, string model_name, List<string> value_list)
         {
-            _family = family;
-            _model_name = model_name;
             _x_pin_to_value_map = new Dictionary<int, string>();
 
             for(int i = 0; i < value_list.Count; ++i)
