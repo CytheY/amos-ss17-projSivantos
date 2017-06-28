@@ -1,12 +1,12 @@
-﻿using CommonFiles.TransferObjects;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using static RaspberryBackend.GpioMap;
 
 namespace RaspberryBackend
 {
     /// <summary>
-    /// This class represents a Command. It it can be used to read a spefic gpio pin of the RaspberryPi.
+    /// This class represents a Command. It it can be used to read a spefic gpio pin of the Operation.
     /// </summary>
-    public partial class RaspberryPi
+    public partial class Operation
     {
 
 
@@ -18,9 +18,9 @@ namespace RaspberryBackend
         /// <returns>The provided duration as string.</returns>
         public string PressPushButton(int duration)
         {
-            activatePin(pushButton_Pin);
+            GPIOinterface.activatePin(pushButton_Pin);
             Task.Delay(duration).Wait();
-            deactivatePin(pushButton_Pin);
+            GPIOinterface.deactivatePin(pushButton_Pin);
 
             return duration.ToString();
         }

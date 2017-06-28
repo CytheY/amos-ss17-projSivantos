@@ -1,5 +1,4 @@
-﻿using CommonFiles.TransferObjects;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 
 namespace RaspberryBackend
@@ -7,7 +6,7 @@ namespace RaspberryBackend
     /// <summary>
     /// This class represents a Command. It simulates a rockerswitch.
     /// </summary>
-    public partial class RaspberryPi
+    public partial class Operation
     {
 
         /// <summary>
@@ -28,23 +27,23 @@ namespace RaspberryBackend
 
             if (rsw < 0 | rsw > 1)
             {
-               throw new Exception("Invalid Rockerswitch submitted");
+                throw new Exception("Invalid Rockerswitch submitted");
             }
 
             UInt16 pushButton_Pin;
 
             if (rsw == 0)
             {
-                pushButton_Pin = rockerSwitch_Pin_0;
+                pushButton_Pin = GpioMap.rockerSwitchDownPin;
             }
             else
             {
-                pushButton_Pin = rockerSwitch_Pin_1;
+                pushButton_Pin = GpioMap.rockerSwitchUpPin;
             }
 
-            activatePin(pushButton_Pin);
+            GPIOinterface.activatePin(pushButton_Pin);
             Task.Delay(duration).Wait();
-            deactivatePin(pushButton_Pin);
+            GPIOinterface.deactivatePin(pushButton_Pin);
 
             return param.ToString();
         }

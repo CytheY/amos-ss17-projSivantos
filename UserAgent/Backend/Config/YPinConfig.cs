@@ -5,11 +5,8 @@ namespace RaspberryBackend
     /// <summary>
     /// Represents the configuration of RasperyyPi components to the multiplexer inputs Y1-Y7
     /// </summary>
-    static class GPIOConfig
+    public class YPinConfig : MultiplexerConfig
     {
-
-        public static Dictionary<string, int> _gpio_to_Y_map = new Dictionary<string, int>();
-
         public static readonly string ROCKERSWITCH_STRING = "RockerSW";
         public static readonly string PUSHBUTTON_STRING = "PB";
         public static readonly string GROUND = "Ground";
@@ -37,8 +34,10 @@ namespace RaspberryBackend
         /// <summary>
         /// Builds a dictionary containing the configuration of RasperyyPi components to the multiplexer inputs Y1-Y7
         /// </summary>
-        static GPIOConfig()
+        public YPinConfig()
         {
+            _gpio_to_Y_map = new Dictionary<string, int>();
+
             _gpio_to_Y_map.Add(GROUND, Y0);
             _gpio_to_Y_map.Add(REC_DET, Y1);
             _gpio_to_Y_map.Add(LED, Y2);

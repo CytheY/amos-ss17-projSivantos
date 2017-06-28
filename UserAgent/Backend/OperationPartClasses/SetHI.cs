@@ -4,9 +4,9 @@ using System;
 namespace RaspberryBackend
 {
     /// <summary>
-    /// This class represents a Command. It is a partial RaspberryPi class
+    /// This class represents a Command. It is a partial Operation class
     /// </summary>
-    public partial class RaspberryPi
+    public partial class Operation
     {
         /// <summary>
         /// Execute the command SetHI

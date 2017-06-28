@@ -1,5 +1,4 @@
-﻿using CommonFiles.TransferObjects;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 
 namespace RaspberryBackend
@@ -7,7 +6,7 @@ namespace RaspberryBackend
     /// <summary>
     /// This class represents a Command. It activates a combination of pins.
     /// </summary>
-    public partial class RaspberryPi
+    public partial class Operation
     {
 
         /// <summary>
@@ -30,20 +29,20 @@ namespace RaspberryBackend
 
             if (param[2] == 1)
             {
-                activatePin(pushButton_Pin);
+                GPIOinterface.activatePin(GpioMap.pushButton_Pin);
             }
             if (param[1] == 1 & param[0] == 0)
             {
-                activatePin(rockerSwitch_Pin_1);
+                GPIOinterface.activatePin(GpioMap.rockerSwitchUpPin);
             }
             if (param[0] == 1 & param[1] == 0)
             {
-                activatePin(rockerSwitch_Pin_0);
+                GPIOinterface.activatePin(GpioMap.rockerSwitchDownPin);
             }
             Task.Delay(duration).Wait();
-            deactivatePin(pushButton_Pin);
-            deactivatePin(rockerSwitch_Pin_0);
-            deactivatePin(rockerSwitch_Pin_1);
+            GPIOinterface.deactivatePin(GpioMap.pushButton_Pin);
+            GPIOinterface.deactivatePin(GpioMap.rockerSwitchDownPin);
+            GPIOinterface.deactivatePin(GpioMap.rockerSwitchUpPin);
 
             return duration.ToString();
         }

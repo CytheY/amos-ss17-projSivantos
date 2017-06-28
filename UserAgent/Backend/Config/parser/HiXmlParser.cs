@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 
@@ -13,7 +11,7 @@ namespace RaspberryBackend
     /// </summary>
     static class HiXmlParser
     {
-        private static Dictionary<string, Dictionary<List<string>, HiType>> hi_dictionary = new Dictionary<string, Dictionary<List<string>, HiType>>();
+        private static Dictionary<string, Dictionary<List<string>, XPinConfig>> hi_dictionary = new Dictionary<string, Dictionary<List<string>, XPinConfig>>();
 
         private const string _CONFIG_PATH = "Data/config/PinOutInfo.xml";
 
@@ -34,7 +32,7 @@ namespace RaspberryBackend
 
                 string family_name = familyElement.Attribute("name").Value;
 
-                Dictionary<List<string>, HiType> tmp = new Dictionary<List<string>, HiType>();
+                Dictionary<List<string>, XPinConfig> tmp = new Dictionary<List<string>, XPinConfig>();
 
                 IEnumerable<XNode> modelNodes = familyElement.Nodes();
                 foreach (XElement modelElement in modelNodes)
@@ -57,7 +55,7 @@ namespace RaspberryBackend
                         pin_value_list.Add(pin_value);
                     }
 
-                    HiType pin_config = new HiType(family_name, model_names_string, pin_value_list);
+                    XPinConfig pin_config = new XPinConfig(family_name, model_names_string, pin_value_list);
 
                     tmp.Add(model_names_list, pin_config);
                 }
@@ -74,13 +72,13 @@ namespace RaspberryBackend
         /// Returns a HiType Object
         /// Returns null if the specified HI is not found
         /// </returns>
-        public static HiType getMultiplexerConfig(string family, string model_name)
+        public static XPinConfig getMultiplexerConfig(string family, string model_name)
         {
             if (hi_dictionary.ContainsKey(family))
             {
-                Dictionary<List<string>, HiType> family_dic = hi_dictionary[family];
+                Dictionary<List<string>, XPinConfig> family_dic = hi_dictionary[family];
 
-                HiType multiplex_config = null;
+                XPinConfig multiplex_config = null;
                 bool model_found = false;
 
                 foreach (List<string> model_names in family_dic.Keys)
@@ -116,7 +114,7 @@ namespace RaspberryBackend
                 sb.Append("Family " + familyName + ":");
                 sb.Append("\n");
 
-                Dictionary<List<string>, HiType> model_dic = hi_dictionary[familyName];
+                Dictionary<List<string>, XPinConfig> model_dic = hi_dictionary[familyName];
 
                 foreach (List<string> model_names in model_dic.Keys)
                 {
@@ -130,7 +128,7 @@ namespace RaspberryBackend
 
                     sb.Append("\n");
 
-                    HiType config_obj = model_dic[model_names];
+                    XPinConfig config_obj = model_dic[model_names];
                     Dictionary<int, string> config_map = config_obj.X_Pin_To_Value_Map;
 
                     sb.Append("\tConfig: ");

@@ -1,9 +1,6 @@
-﻿using CommonFiles.TransferObjects;
-using System.Collections.Generic;
-
-namespace RaspberryBackend
+﻿namespace RaspberryBackend
 {
-    public partial class RaspberryPi
+    public partial class Operation
     {
         /// <summary>
         /// Executes the command GetAvailableHI. This retrieves a list of available HI contained
@@ -13,7 +10,7 @@ namespace RaspberryBackend
         /// <returns>Dictionary of Lists of strings mapped to strings.</returns>
         public string GetAvailableHI(int y)
         {
-            return MultiplexerConfigParser.getAvailableHI();
+            return HiXmlParser.getAvailableHI();
         }
     }
 }

@@ -111,5 +111,25 @@ namespace RaspberryBackend
         {
             return pins[id].Read().ToString();
         }
+
+        /// <summary>
+        /// Set GPIO pin to 1
+        /// </summary>
+        /// <param name="id"></param>
+        public void activatePin(UInt16 id)
+        {
+            setToOutput(id);
+            writePin(id, 1);
+        }
+
+        /// <summary>
+        /// Reset GPIO pin by settting to 0
+        /// </summary>
+        /// <param name="id"></param>
+        public void deactivatePin(UInt16 id)
+        {
+            setToOutput(id);
+            writePin(id, 0);
+        }
     }
 }

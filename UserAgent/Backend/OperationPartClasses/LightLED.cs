@@ -1,5 +1,4 @@
-﻿using CommonFiles.TransferObjects;
-using System;
+﻿using System;
 using System.Diagnostics;
 
 namespace RaspberryBackend
@@ -7,14 +6,14 @@ namespace RaspberryBackend
     /// <summary>
     /// This class represents a Command. It lights the LED on if the Request-Parameter is 1 and off if 0.
     /// </summary>
-    public partial class RaspberryPi
+    public partial class Operation
     {
         public string lastStateOnRequest;
         public string currentState;
         private const UInt16 GPIO_PIN_ID = 24;
 
         /// <summary>
-        ///  executes the Command LightLED in dependency of the parsed parameter
+        /// Executes the Command LightLED in dependency of the parsed parameter
         /// </summary>
         /// <param name="parameter">Int to turn on or off the LED (0 or 1)</param>
         /// <returns>The requested parameter.</returns>
@@ -23,7 +22,7 @@ namespace RaspberryBackend
             const uint ON = 1;
             const uint OFF = 0;
 
-            lastStateOnRequest = readPin(GPIO_PIN_ID);
+            lastStateOnRequest = GPIOinterface.readPin(GPIO_PIN_ID);
 
             if (requestedParameter == ON)
             {
@@ -44,7 +43,7 @@ namespace RaspberryBackend
 
 
         /// <summary>
-        /// can be used to change the state of the (hardware) LED to a new state.
+        /// Can be used to change the state of the (hardware) LED to a new state.
         /// Note: this method uses the instance constant "PIN_ID" to change the state
         /// => new call then e.g.LED.switchToState(ON);
         /// </summary>
@@ -54,13 +53,13 @@ namespace RaspberryBackend
         {
             if (targetState == 0)
             {
-                deactivatePin(GPIO_PIN_ID);
+                GPIOinterface.deactivatePin(GPIO_PIN_ID);
             }
             else
             {
-                activatePin(GPIO_PIN_ID);
+                GPIOinterface.activatePin(GPIO_PIN_ID);
             }
-            return readPin(GPIO_PIN_ID);
+            return GPIOinterface.readPin(GPIO_PIN_ID);
         }
 
     }

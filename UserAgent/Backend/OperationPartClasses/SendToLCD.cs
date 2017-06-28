@@ -1,12 +1,11 @@
-﻿using CommonFiles.TransferObjects;
-using System;
+﻿using System;
 
 namespace RaspberryBackend
 {
     /// <summary>
     /// This class represents a Command. It it sends data to a LCD through I2C.
     /// </summary>
-    public partial class RaspberryPi
+    public partial class Operation
     {
 
         /// <summary>
@@ -23,16 +22,17 @@ namespace RaspberryBackend
 
             if (text == "#reset")
             {
-                resetLCD();
+                LCD.resetLCD();
                 return "Reset display";
             }
             if (text.Length <= charsMaxInLine)
             {
-                writeToLCD(text);
+                LCD.writeToLCD(text);
             }
             else if (text.Length <= 2 * charsMaxInLine)
             {
-                writeToLCDTwoLines(text);
+                LCD.printInTwoLines(text);
+
             }
             else
             {
@@ -41,5 +41,9 @@ namespace RaspberryBackend
 
             return text;
         }
+
+
+
+
     }
 }

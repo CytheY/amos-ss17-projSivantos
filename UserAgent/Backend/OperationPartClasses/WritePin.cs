@@ -1,12 +1,11 @@
-﻿using CommonFiles.TransferObjects;
-using System;
+﻿using System;
 
 namespace RaspberryBackend
 {
     /// <summary>
-    /// This class represents a Command. It it can be used to write on a spefic gpio pin of the RaspberryPi.
+    /// This class represents a Command. It it can be used to write on a spefic gpio pin of the Operation.
     /// </summary>
-    public partial class RaspberryPi
+    public partial class Operation
     {
 
         /// <summary>
@@ -16,8 +15,8 @@ namespace RaspberryBackend
         /// <returns>The current status of the requested pin.</returns>
         public string WritePin(UInt16 id)
         {
-            activatePin(id);
-            string retValue = readPin(id);
+            GPIOinterface.activatePin(id);
+            string retValue = GPIOinterface.readPin(id);
             return retValue;
         }
     }

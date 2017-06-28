@@ -4,8 +4,6 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.Devices.Gpio;
 using Windows.Devices.I2c;
-using System.Linq;
-using RaspberryBackend.Config;
 
 namespace RaspberryBackend
 {
@@ -68,7 +66,7 @@ namespace RaspberryBackend
             this.model_name = model_name;
 
             MultiplexerConfig muxConfig = new MultiplexerConfig(family, model_name);
-            Dictionary<int,int> xToYMapping = muxConfig.getX_to_Y_Mapping();
+            Dictionary<int, int> xToYMapping = muxConfig.getX_to_Y_Mapping();
 
             current_multiplexer_state.Clear();
 
@@ -91,7 +89,6 @@ namespace RaspberryBackend
             if (current_multiplexer_state.ContainsKey(xi))
             {
                 return current_multiplexer_state[xi].Item1;
-
             }
 
             return -1;
@@ -186,7 +183,7 @@ namespace RaspberryBackend
         {
             if (xi > 9 | yi > 7) return;
             if (xi > 5) xi = xi + 2;
-            this.write(new Byte[] { (byte)(_DB15 | (byte)(xi << 3) | (byte)(yi)), (byte)1 });
+            this.write(new byte[] { (byte)(_DB15 | (byte)(xi << 3) | (byte)(yi)), (byte)1 });
         }
 
         /// <summary>
@@ -199,7 +196,7 @@ namespace RaspberryBackend
         {
             if (xi > 9 | yi > 7) return;
             if (xi > 5) xi = xi + 2;
-            this.write(new Byte[] { (byte)((byte)(xi << 3) | (byte)(yi)) });
+            this.write(new byte[] { (byte)((byte)(xi << 3) | (byte)(yi)) });
         }
     }
 }

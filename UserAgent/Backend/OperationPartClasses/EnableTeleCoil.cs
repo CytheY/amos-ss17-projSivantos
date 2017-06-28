@@ -1,15 +1,16 @@
-﻿using CommonFiles.TransferObjects;
+﻿using static RaspberryBackend.GpioMap;
 
 namespace RaspberryBackend
 {
     /// <summary>
     /// This class represents a Command. It it can be used to deactivate a tele-coil.
     /// </summary>
-    public partial class RaspberryPi
+    public partial class Operation
     {
 
         /// <summary>
-        /// Executes the Command EnableTeleCoil.
+        /// Send signal that a tele-coil is detected or undetected by pulling up the respective pin as defined by documentation. Compare the
+        /// circuit diagram for more details.
         /// </summary>
         /// <param name="value">Integer: For 1 activate the telecoil. For 0 deactivate it.</param>
         /// <returns>The current status of the teleCoil-pin.</returns>
@@ -17,15 +18,17 @@ namespace RaspberryBackend
         {
             if (value == 1)
             {
-                this.setTeleCoil();
+                GPIOinterface.activatePin(teleCoil_Pin);
+
 
             }
             else if (value == 0)
             {
-                this.unsetTeleCoil();
+                GPIOinterface.deactivatePin(teleCoil_Pin);
+
             }
 
-            return readPin(teleCoil_Pin);
+            return GPIOinterface.readPin(teleCoil_Pin);
 
         }
     }

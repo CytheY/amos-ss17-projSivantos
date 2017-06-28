@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace RaspberryBackend
@@ -10,7 +7,7 @@ namespace RaspberryBackend
     /// <summary>
     /// This class represents a Command. It it can be used to set endless volume-control.
     /// </summary>
-    public partial class RaspberryPi
+    public partial class Operation
     {
         /// <summary>
         /// Execute the Command EndlessVCUp. The command uses the Ticks_Counter to its max-value, until the max-value is
@@ -20,7 +17,7 @@ namespace RaspberryBackend
         public int EndlessVCUp(int ticks)
         {
             Debug.WriteLine("EndlessVCUp ::: Pressing RockerSwitch up " + ticks + " times.");
-            pressRockerSwitch(rockerSwitch_Pin_1, ticks);
+            pressRockerSwitch(GpioMap.rockerSwitchUpPin, ticks);
             return ticks;
         }
 
@@ -32,7 +29,7 @@ namespace RaspberryBackend
         public int EndlessVCDown(int ticks)
         {
             Debug.WriteLine("EndlessVCDown ::: Pressing RockerSwitch down " + ticks + " times.");
-            pressRockerSwitch(rockerSwitch_Pin_0, ticks);
+            pressRockerSwitch(GpioMap.rockerSwitchDownPin, ticks);
             return ticks;
         }
 
@@ -40,9 +37,9 @@ namespace RaspberryBackend
         {
             for (int i = 0; i < ticks; ++i)
             {
-                activatePin(pin);
+                GPIOinterface.activatePin(pin);
                 Task.Delay(1000).Wait();
-                deactivatePin(pin);
+                GPIOinterface.deactivatePin(pin);
                 Task.Delay(1000).Wait();
             }
         }

@@ -5,41 +5,15 @@ using System.Net.NetworkInformation;
 
 namespace RaspberryBackend
 {
-    public partial class RaspberryPi
+    public partial class Operation
     {
-        /// <summary>
-        /// Print string to LCD display
-        /// </summary>
-        /// <param name="s"></param>
-        public void writeToLCD(string s)
-        {
-            LCD.clrscr();
-            LCD.prints(s);
-        }
 
-        /// <summary>
-        /// Print two lines to LCD
-        /// </summary>
-        /// <param name="s"></param>
-        public void writeToLCDTwoLines(string s)
-        {
-            int maxCharLCD = 16;
-            LCD.printInTwoLines(s, maxCharLCD);
-        }
-
-        /// <summary>
-        /// Reset the LCD (clear it's screen)
-        /// </summary>
-        public void resetLCD()
-        {
-            LCD.initiateLCD();
-        }
 
         /// <summary>
         /// Set state for background in LCD. Will want to switch to toggle
         /// </summary>
         /// <param name="targetState"></param>
-        public void setLCDBackgroundState(byte targetState)
+        private void setLCDBackgroundState(byte targetState)
         {
             LCD.backLight = targetState;
             LCD.write(targetState, 0);
@@ -74,15 +48,15 @@ namespace RaspberryBackend
         /// </summary>
         public void updateLCD()
         {
-            this.resetLCD();
+            LCD.resetLCD();
             this.setLCDBackgroundState(0x01);
 
             string ip = GetIpAddressAsync();
-            string hi = Multiplexer.getCurrentModel();
-            string currentReceiver = this.getCurrentReceiver();
-            string status = (this.isInitialized()) ? "On" : "Off";
+            string hi = Multiplexer.model_name;
+            string currentReceiver = Receiver.CurrentReceiver;
+            string status = (RasPi.isInitialized()) ? "On" : "Off";
             string vbat = ADConverter.getDACVoltage1().ToString();
-            string isConnected = (this.skeleton.getClientCount() != 0) ? "Con" : "X";
+            string isConnected = (RasPi.skeleton.getClientCount() != 0) ? "Con" : "X";
             string print = ip + " " + isConnected + " " + currentReceiver + " " + status + " " + vbat + "V " + hi;
 
             this.LCD.printInTwoLines(print);
