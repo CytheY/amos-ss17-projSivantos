@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Windows.Devices.Gpio;
 using Windows.Devices.I2c;
 using System.Linq;
+using RaspberryBackend.Config;
 
 namespace RaspberryBackend
 {
@@ -25,8 +26,6 @@ namespace RaspberryBackend
         private I2cDevice multiplexer;
         private byte _DB15 = 0x80;
         private GpioPin _reset;
-        private string currentModel = "";
-        private string currentFamily = "";
 
         //private Dictionary<int, Tuple<int, string>> current_multiplexer_state = new Dictionary<int, Tuple<int, string>>();
         public Dictionary<int, Tuple<int, string>> current_multiplexer_state { get; private set; } = new Dictionary<int, Tuple<int, string>>();
@@ -67,29 +66,16 @@ namespace RaspberryBackend
             Debug.WriteLine(this.GetType().Name + "::: Setting Multiplexer Config:");
             this.family = family;
             this.model_name = model_name;
-            MultiplexerConfig mux_config = MultiplexerConfigParser.getMultiplexerConfig(family, model_name);
-            Dictionary<int, string> X_to_value_map = mux_config.X_Pin_To_Value_Map;
-            Dictionary<string, int> value_to_Y_map = GPIOConfig._gpio_to_Y_map;
+
+            MultiplexerConfig muxConfig = new MultiplexerConfig(family, model_name);
+            Dictionary<int,int> xToYMapping = muxConfig.getX_to_Y_Mapping();
 
             current_multiplexer_state.Clear();
 
-            foreach (int value_x in X_to_value_map.Keys)
+            foreach (var keyValuePair in xToYMapping)
             {
-                foreach (string y_value in value_to_Y_map.Keys)
-                {
-                    if (y_value.Equals(X_to_value_map[value_x]))
-                    {
-                        if(isInitialized())
-                        {
-                            connectPins(value_x, value_to_Y_map[y_value]);
-                            Debug.WriteLine(this.GetType().Name + "::: X(" + value_x + ")[" + X_to_value_map[value_x] + "] to Y(" + value_to_Y_map[y_value] + ")[" + y_value + "]");
-                        }
-                        current_multiplexer_state.Add(value_x, new Tuple<int, string>(value_to_Y_map[y_value], y_value));
-                    }
-                }
+                connectPins(keyValuePair.Key, keyValuePair.Value);
             }
-            this.currentFamily = family;
-            this.currentModel = model_name;
         }
 
         /// <summary>
@@ -214,24 +200,6 @@ namespace RaspberryBackend
             if (xi > 9 | yi > 7) return;
             if (xi > 5) xi = xi + 2;
             this.write(new Byte[] { (byte)((byte)(xi << 3) | (byte)(yi)) });
-        }
-
-        /// <summary>
-        /// Retrieve current model.
-        /// </summary>
-        /// <returns>The current configuration's model written to the mux.</returns>
-        public string getCurrentModel()
-        {
-            return this.currentModel;
-        }
-
-        /// <summary>
-        /// Retrieve current model.
-        /// </summary>
-        /// <returns>The current configuration's family written to the mux.</returns>
-        public string getCurrentFamily()
-        {
-            return this.currentFamily;
         }
     }
 }
