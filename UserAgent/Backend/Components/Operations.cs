@@ -7,7 +7,7 @@ namespace RaspberryBackend
     /// <summary>
     /// Super class for each Operation. Will be initialized by RaspberryPi
     /// </summary>
-    public class Operations
+    public partial class Operation
     {
         /// <summary>
         /// For now this is needed because some operation check the Initialization state of the RasPi.
@@ -23,14 +23,14 @@ namespace RaspberryBackend
         public readonly ADConverter ADConverter;
 
 
-        public Operations() { }
+        public Operation() { }
 
         /// <summary>
         /// Initializes the Operation Class by initializing corresponding Hardware fields which will be used
         /// from an Operation
         /// </summary>
         /// <param name="hwComponents"> Hardware Components which will be used to initialize the fields</param>
-        public Operations(Dictionary<string, HWComponent> hwComponents)
+        public Operation(Dictionary<string, HWComponent> hwComponents)
         {
             foreach (HWComponent hwComponent in hwComponents.Values)
             {
