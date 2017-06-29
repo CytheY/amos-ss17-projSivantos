@@ -21,7 +21,7 @@ namespace RaspberryBackend
         //Single location for all Hardware Components
         private Dictionary<string, HWComponent> _hwComponents = new Dictionary<string, HWComponent>();
 
-        public Operations Control { get; set; }
+        public Operation Control { get; set; }
 
         //Singleton pattern
         private RaspberryPi() { }
@@ -78,7 +78,7 @@ namespace RaspberryBackend
                 // Since the initialisation of Hardware is indipendent, the start-configuration of the RasPi which relise on them is seperated
                 if (hwComponentsInitialized())
                 {
-                    Control = new Operations(_hwComponents);
+                    Control = new Operation(_hwComponents);
                     initiateStartUpConfiguration();
                 }
                 else if (!_testMode)
