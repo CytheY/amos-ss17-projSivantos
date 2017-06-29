@@ -13,7 +13,7 @@ namespace RaspberryBackend
     {
         private static Dictionary<string, Dictionary<List<string>, XPinConfig>> hi_dictionary = new Dictionary<string, Dictionary<List<string>, XPinConfig>>();
 
-        private const string _CONFIG_PATH = "Data/config/PinOutInfo.xml";
+        private const string _CONFIG_PATH = "Config/xml/PinOutInfo.xml";
 
         private static XDocument config;
 
