@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace RaspberryBackend
 {
@@ -21,21 +22,29 @@ namespace RaspberryBackend
 
         public MultiplexerConfig(string family, string model)
         {
-            XPinConfig mux_config = HiXmlParser.getMultiplexerConfig(family, model);
+            XPinConfig xPinConfig = HiXmlParser.getMultiplexerConfig(family, model);
+            YPinConfig yPinConfig = new YPinConfig();
 
-            Dictionary<int, string> xToValueMap = mux_config.X_Pin_To_Value_Map;
-            Dictionary<string, int> valueToYMap = _gpio_to_Y_map;
+            _x_pin_to_value_map = xPinConfig.X_Pin_To_Value_Map;
+            _gpio_to_Y_map = yPinConfig._gpio_to_Y_map;
 
-            foreach (int value_x in xToValueMap.Keys)
+            Debug.WriteLine("\n====================================\n " +
+                            "===== Multiplexer Configuration ====\n ");
+            foreach (int value_x in _x_pin_to_value_map.Keys)
             {
-                foreach (string y_value in valueToYMap.Keys)
+                foreach (string y_value in _gpio_to_Y_map.Keys)
                 {
-                    if (y_value.Equals(xToValueMap[value_x]))
+                    if (y_value.Equals(_x_pin_to_value_map[value_x]))
                     {
-                        x_to_y_map.Add(value_x, valueToYMap[y_value]);
+                        x_to_y_map.Add(value_x, _gpio_to_Y_map[y_value]);
+
+                        Debug.WriteLine("Pin {0} is connected to : {1} \n", value_x, y_value);
                     }
                 }
             }
+
+            Debug.WriteLine("====================================\n ");
+
         }
 
         public Dictionary<int, int> getX_to_Y_Mapping()
