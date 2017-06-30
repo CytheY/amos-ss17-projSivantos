@@ -77,6 +77,8 @@ namespace RaspberryBackend
 
                 initializeHWComponents();
 
+                Control = new Operation(_hwComponents);
+
                 // Since the initialisation of Hardware is indipendent, the start-configuration of the RasPi which relise on them is seperated
                 if (hwComponentsInitialized())
                 {
@@ -87,7 +89,6 @@ namespace RaspberryBackend
                     throw new AggregateException("Hardware Components are (partly) not initialised thus the startconfiguration could not be initalised");
                 }
 
-                Control = new Operation(_hwComponents);
 
                 _initialized = true;
             }
