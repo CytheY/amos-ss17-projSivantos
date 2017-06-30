@@ -13,14 +13,12 @@ namespace RaspberryBackend
     /// </summary>
     public class RaspberryPi
     {
-        /// <summary>
-        /// TODO: This is for now a workaround which is needed for LCD status update. Should not be permenant
-        /// </summary>
-        public ServerSkeleton skeleton { get; set; }
-
         //Single location for all Hardware Components
         private Dictionary<string, HWComponent> _hwComponents = new Dictionary<string, HWComponent>();
 
+        /// <summary>
+        /// The Control interface for the Raspberry Pi which contains all implemented methods which can be used to trigger features.
+        /// </summary>
         public Operation Control { get; set; }
 
         //Singleton pattern
@@ -31,6 +29,10 @@ namespace RaspberryBackend
         private bool _initialized = false;
         private bool _testMode = true;
 
+        /// <summary>
+        /// TODO: This is for now a workaround which is needed for LCD status update. Should not be permenant
+        /// </summary>
+        public ServerSkeleton skeleton { get; set; }
 
         /// <summary>
         /// Default initialization of the Raspberry Pi. It initialize the preconfigured Hardware of the RasPi.
@@ -52,8 +54,8 @@ namespace RaspberryBackend
 
         private void initiateStartUpConfiguration()
         {
-            Control.Multiplexer.setResetPin(Control.GPIOinterface.getPin(18));
-            Control.Multiplexer.setMultiplexerConfiguration("TestFamily", "TestModel");
+            Control.Multiplexer.setResetPin(Control.GPIOinterface.getPin(GpioMap.muxerResetPin));
+            Control.setMultiplexerConfiguration("TestFamily", "TestModel");
         }
 
         /// <summary>
@@ -119,6 +121,16 @@ namespace RaspberryBackend
             _initialized = false;
         }
 
+        /// <summary>
+        /// Sets the Skeleton field in Raspberry Pi.
+        /// TODO: This is for now a workaround which is needed for LCD status update. Should not be permenant
+        /// </summary>
+        /// <param name="s"></param>
+        public void setSkeleton(ServerSkeleton s)
+        {
+            this.skeleton = s;
+        }
+
         private void addToRasPi(HWComponent hwComponent)
         {
             string key = hwComponent.GetType().Name;
@@ -168,9 +180,5 @@ namespace RaspberryBackend
             }
         }
 
-        public void setSkeleton(ServerSkeleton s)
-        {
-            this.skeleton = s;
-        }
     }
 }
