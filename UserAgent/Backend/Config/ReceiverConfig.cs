@@ -2,7 +2,10 @@
 
 namespace RaspberryBackend
 {
-    public static class Receiver
+    /// <summary>
+    /// This is the single stored information point on the Receiver Configuration. For now it is only used by <seealso cref="Operation.SetARDVoltage"/>.
+    /// </summary>
+    public static class ReceiverConfig
     {
         public static string CurrentReceiver { get; set; } = "None";
 

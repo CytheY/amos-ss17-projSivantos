@@ -127,7 +127,7 @@
     <Compile Include="Config\GpioMap.cs" />
     <Compile Include="Config\parser\HiXmlParser.cs" />
     <Compile Include="Config\MultiplexerConfig.cs" />
-    <Compile Include="Config\Receiver.cs" />
+    <Compile Include="Config\ReceiverConfig.cs" />
     <Compile Include="Config\XPinConfig.cs" />
     <Compile Include="Config\YPinConfig.cs" />
     <Compile Include="OperationPartClasses\EnableAudioShoe.cs" />
@@ -145,6 +145,7 @@
     <Compile Include="OperationPartClasses\SendToLCD.cs" />
     <Compile Include="OperationPartClasses\SetARDVoltage.cs" />
     <Compile Include="OperationPartClasses\GetAudioShoeStatus.cs" />
+    <Compile Include="OperationPartClasses\SetMultiplexerConfiguration.cs" />
     <Compile Include="OperationPartClasses\SetHI.cs" />
     <Compile Include="OperationPartClasses\GetStatus.cs" />
     <Compile Include="OperationPartClasses\ToggleBacklight_LCD.cs" />
