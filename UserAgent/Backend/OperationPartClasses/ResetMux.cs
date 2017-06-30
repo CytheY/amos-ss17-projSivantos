@@ -1,7 +1,4 @@
-﻿using CommonFiles.TransferObjects;
-using System;
-
-namespace RaspberryBackend
+﻿namespace RaspberryBackend
 {
 
     /// <summary>
@@ -15,12 +12,12 @@ namespace RaspberryBackend
         /// </summary>
         /// <param name="parameter">represents the GpioPin which shall be reset</param>
         /// <returns>The current state of the deactivated pin represented as string. Should evaluate to "Low".</returns>
-        public string ResetMux( int a)
+        public string ResetMux(int a)
         {
             string family = "TestFamily";
             string model = "TestModel";
             Multiplexer.resetAll();
-            Multiplexer.setMultiplexerConfiguration(family, model);
+            setMultiplexerConfiguration(family, model);
             return "";
         }
     }

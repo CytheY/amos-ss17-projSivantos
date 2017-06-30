@@ -12,8 +12,8 @@ namespace RaspberryBackend
         /// <summary>
         /// Builds a dictionary containing the multiplexer configuration for a specific HI
         /// </summary>
-        /// <param name="family">family name of the HI, e.g.: "Pure"</param>
-        /// <param name="model_name">model name of the HI: e.g: "312 702 S (DN)"</param>
+        /// <param name="family">HiFamily name of the HI, e.g.: "Pure"</param>
+        /// <param name="model_name">HiModel name of the HI: e.g: "312 702 S (DN)"</param>
         /// <param name="value_list">A List containing all possible HI function, e.g.: ["RockerSW","Ground","PB",...]</param>
         public XPinConfig(string family, string model_name, List<string> value_list)
         {
@@ -30,7 +30,7 @@ namespace RaspberryBackend
         /// </summary>
         /// <returns>
         /// Returns all pins that a specific function of the HI is mapped to, or empty when a specific feature
-        /// is unavailable for a certain model e.g.: "Ground" = 3, 4, 9 ; "RockerSW" = 8, "PB" = - , ...
+        /// is unavailable for a certain HiModel e.g.: "Ground" = 3, 4, 9 ; "RockerSW" = 8, "PB" = - , ...
         /// </returns>
         public int[] ValueToPins(string val)
         {

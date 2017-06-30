@@ -52,8 +52,8 @@ namespace RaspberryBackend
             this.setLCDBackgroundState(0x01);
 
             string ip = GetIpAddressAsync();
-            string hi = Multiplexer.model_name;
-            string currentReceiver = Receiver.CurrentReceiver;
+            string hi = MultiplexerConfig.HiModel;
+            string currentReceiver = ReceiverConfig.CurrentReceiver;
             string status = (RasPi.isInitialized()) ? "On" : "Off";
             string vbat = ADConverter.getDACVoltage1().ToString();
             string isConnected = (RasPi.skeleton.getClientCount() != 0) ? "Con" : "X";

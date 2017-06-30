@@ -27,8 +27,7 @@ namespace RaspberryBackend
 
         //private Dictionary<int, Tuple<int, string>> current_multiplexer_state = new Dictionary<int, Tuple<int, string>>();
         public Dictionary<int, Tuple<int, string>> current_multiplexer_state { get; private set; } = new Dictionary<int, Tuple<int, string>>();
-        public string family { get; private set; }
-        public string model_name { get; private set; }
+
         public override void initiate()
         {
             try
@@ -44,37 +43,7 @@ namespace RaspberryBackend
             _initialized = true;
         }
 
-        /// <summary>
-        /// Sets the multiplexer configuation to a default HI from the XML Config file.
-        /// The HI is:
-        /// Family: "Pure", Model: "312 702 S (DN)"
-        /// </summary>
-        public void setMultiplexerConfiguration()
-        {
-            setMultiplexerConfiguration("Pure", "312 702 S (DN)");
-        }
 
-        /// <summary>
-        /// Sets the multiplexer configuation to a specific HI
-        /// </summary>
-        /// <param name="family">family name of the HI, e.g.: "Pure"</param>
-        /// <param name="model_name">model name of the HI: e.g: "312 702 S (DN)"</param>
-        public void setMultiplexerConfiguration(string family, string model_name)
-        {
-            Debug.WriteLine(this.GetType().Name + "::: Setting Multiplexer Config:");
-            this.family = family;
-            this.model_name = model_name;
-
-            MultiplexerConfig muxConfig = new MultiplexerConfig(family, model_name);
-            Dictionary<int, int> xToYMapping = muxConfig.getX_to_Y_Mapping();
-
-            current_multiplexer_state.Clear();
-
-            foreach (var keyValuePair in xToYMapping)
-            {
-                connectPins(keyValuePair.Key, keyValuePair.Value);
-            }
-        }
 
         /// <summary>
         /// Gets the Y pin currently connected to the X Pin

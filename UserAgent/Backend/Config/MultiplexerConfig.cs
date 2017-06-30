@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace RaspberryBackend
@@ -9,23 +10,38 @@ namespace RaspberryBackend
     /// </summary>
     public class MultiplexerConfig
     {
+        //TODO: This fields might be better initialized by <see cref="XPinConfig"/> and <see cref="YPinConfig"/>.
         protected Dictionary<string, int> _gpio_to_Y_map;
         protected Dictionary<int, string> _x_pin_to_value_map;
 
-
+        //Dictionary which will be used to connect pins
         private Dictionary<int, int> x_to_y_map = new Dictionary<int, int>();
+
+        /// <summary>
+        /// Current Hi Family which the Multiplexer is configured on
+        /// </summary>
+        public static string HiFamily { get; private set; }
+
+        /// <summary>
+        /// Current Hi HiModel which the Multiplexer is configured on
+        /// </summary>
+        public static string HiModel { get; private set; }
+
 
         public MultiplexerConfig()
         {
 
         }
 
-        public MultiplexerConfig(string family, string model)
+        public MultiplexerConfig(string hiFamily, string hiModel)
         {
-            XPinConfig xPinConfig = HiXmlParser.getMultiplexerConfig(family, model);
+            HiFamily = hiFamily;
+            HiModel = hiModel;
+
+            XPinConfig xPinConfig = HiXmlParser.getMultiplexerConfig(hiFamily, hiModel);
             YPinConfig yPinConfig = new YPinConfig();
 
-            _x_pin_to_value_map = xPinConfig.X_Pin_To_Value_Map;
+            _x_pin_to_value_map = xPinConfig._x_pin_to_value_map;
             _gpio_to_Y_map = yPinConfig._gpio_to_Y_map;
 
             Debug.WriteLine("\n====================================\n " +
@@ -39,12 +55,13 @@ namespace RaspberryBackend
                         x_to_y_map.Add(value_x, _gpio_to_Y_map[y_value]);
 
                         Debug.WriteLine("Pin {0} is connected to : {1} \n", value_x, y_value);
+
+                        RaspberryPi.Instance.Control.Multiplexer.current_multiplexer_state.Add(value_x, new Tuple<int, string>(_gpio_to_Y_map[y_value], y_value));
                     }
                 }
             }
 
             Debug.WriteLine("====================================\n ");
-
         }
 
         public Dictionary<int, int> getX_to_Y_Mapping()
