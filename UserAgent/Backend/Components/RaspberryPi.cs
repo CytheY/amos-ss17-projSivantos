@@ -80,13 +80,14 @@ namespace RaspberryBackend
                 // Since the initialisation of Hardware is indipendent, the start-configuration of the RasPi which relise on them is seperated
                 if (hwComponentsInitialized())
                 {
-                    Control = new Operation(_hwComponents);
                     initiateStartUpConfiguration();
                 }
                 else if (!_testMode)
                 {
                     throw new AggregateException("Hardware Components are (partly) not initialised thus the startconfiguration could not be initalised");
                 }
+
+                Control = new Operation(_hwComponents);
 
                 _initialized = true;
             }
@@ -116,8 +117,8 @@ namespace RaspberryBackend
         /// </summary>
         public void reset()
         {
-            resetClassInstanceField();
             _hwComponents = new Dictionary<string, HWComponent>();
+            Control = null;
             _initialized = false;
         }
 
@@ -176,7 +177,7 @@ namespace RaspberryBackend
         {
             foreach (var hwComponent in _hwComponents.Values)
             {
-                this.GetType().GetField(hwComponent.GetType().Name).SetValue(this, null);
+                Control.GetType().GetField(hwComponent.GetType().Name).SetValue(this, null);
             }
         }
 
