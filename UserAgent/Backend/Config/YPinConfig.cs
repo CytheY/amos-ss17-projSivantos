@@ -36,16 +36,16 @@ namespace RaspberryBackend
         /// </summary>
         public YPinConfig()
         {
-            _gpio_to_Y_map = new Dictionary<string, int>();
+            gpio_To_YPin_Map = new Dictionary<string, int>();
 
-            _gpio_to_Y_map.Add(GROUND, Y0);
-            _gpio_to_Y_map.Add(REC_DET, Y1);
-            _gpio_to_Y_map.Add(LED, Y2);
-            _gpio_to_Y_map.Add(PUSHBUTTON_STRING, Y3);
-            _gpio_to_Y_map.Add(ROCKERSWITCH_STRING, Y4);
-            _gpio_to_Y_map.Add(ARD, Y1);
-            _gpio_to_Y_map.Add(DET_TELE, Y6);
-            _gpio_to_Y_map.Add(DET_AUDIO, Y7);
+            gpio_To_YPin_Map.Add(GROUND, Y0);
+            gpio_To_YPin_Map.Add(REC_DET, Y1);
+            gpio_To_YPin_Map.Add(LED, Y2);
+            gpio_To_YPin_Map.Add(PUSHBUTTON_STRING, Y3);
+            gpio_To_YPin_Map.Add(ROCKERSWITCH_STRING, Y4);
+            gpio_To_YPin_Map.Add(ARD, Y1);
+            gpio_To_YPin_Map.Add(DET_TELE, Y6);
+            gpio_To_YPin_Map.Add(DET_AUDIO, Y7);
             //TODO: Map Y5-Y7 as soon as we know what the strings mean...
 
         }

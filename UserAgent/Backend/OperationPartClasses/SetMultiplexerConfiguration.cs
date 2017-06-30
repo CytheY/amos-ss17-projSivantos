@@ -14,9 +14,9 @@ namespace RaspberryBackend
         /// The HI is:
         /// Family: "Pure", Model: "312 702 S (DN)"
         /// </summary>
-        public void setMultiplexerConfiguration()
+        public MultiplexerConfig setMultiplexerConfiguration()
         {
-            setMultiplexerConfiguration("Pure", "312 702 S (DN)");
+            return setMultiplexerConfiguration("Pure", "312 702 S (DN)");
         }
 
         /// <summary>
@@ -24,20 +24,22 @@ namespace RaspberryBackend
         /// </summary>
         /// <param name="family">HiFamily name of the HI, e.g.: "Pure"</param>
         /// <param name="model_name">HiModel name of the HI: e.g: "312 702 S (DN)"</param>
-        public void setMultiplexerConfiguration(string family, string model_name)
+        public MultiplexerConfig setMultiplexerConfiguration(string family, string model_name)
         {
             Debug.WriteLine(this.GetType().Name + "::: Setting Multiplexer Config:");
 
             MultiplexerConfig muxConfig = new MultiplexerConfig(family, model_name);
             Dictionary<int, int> xToYMapping = muxConfig.getX_to_Y_Mapping();
 
-            Multiplexer.current_multiplexer_state.Clear();
 
-            foreach (var keyValuePair in xToYMapping)
+            if (!RasPi.isTestMode())
             {
-                Multiplexer.connectPins(keyValuePair.Key, keyValuePair.Value);
+                foreach (var keyValuePair in xToYMapping)
+                {
+                    Multiplexer.connectPins(keyValuePair.Key, keyValuePair.Value);
+                }
             }
-
+            return muxConfig;
         }
     }
 }
