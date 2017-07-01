@@ -7,7 +7,7 @@ using Windows.Storage;
 namespace RaspberryBackend
 {
     /// <summary>
-    /// <see cref="https://stackoverflow.com/questions/34385625/saving-files-on-raspberry-pi-with-windows-iot"/>
+    /// Adaptedion of <see cref="https://stackoverflow.com/questions/34385625/saving-files-on-raspberry-pi-with-windows-iot"/>
     /// Provides functions to save and load single object as well as List of 'T' using serialization
     /// </summary>
     /// <typeparam name="T">Type parameter to be serialize</typeparam>
@@ -21,7 +21,10 @@ namespace RaspberryBackend
 
             Task.WaitAll();
 
-            StorageFile _File = await ApplicationData.Current.LocalFolder.CreateFileAsync(FileName, CreationCollisionOption.ReplaceExisting);
+            StorageFolder docfolder = await KnownFolders.GetFolderForUserAsync(null, KnownFolderId.DocumentsLibrary);
+            StorageFolder folder = await docfolder.CreateFolderAsync(StorageCfgs.FolderName_Cfgs, CreationCollisionOption.OpenIfExists);
+            StorageFile _File = await folder.CreateFileAsync(FileName, CreationCollisionOption.ReplaceExisting);
+
 
             using (Stream fileStream = await _File.OpenStreamForWriteAsync())
             {
@@ -35,7 +38,9 @@ namespace RaspberryBackend
 
         public static async Task<T> Load(string FileName)
         {
-            StorageFolder _Folder = ApplicationData.Current.LocalFolder;
+            StorageFolder docfolder = await KnownFolders.GetFolderForUserAsync(null, KnownFolderId.DocumentsLibrary);
+            StorageFolder _Folder = await docfolder.CreateFolderAsync(StorageCfgs.FolderName_Cfgs, CreationCollisionOption.OpenIfExists);
+
             StorageFile _File;
             T Result;
 
