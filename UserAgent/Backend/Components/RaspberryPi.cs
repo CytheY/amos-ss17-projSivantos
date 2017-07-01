@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
 
 
 namespace RaspberryBackend
@@ -24,6 +25,8 @@ namespace RaspberryBackend
         //Singleton pattern
         private RaspberryPi() { }
         public static RaspberryPi Instance { get; } = new RaspberryPi();
+
+        private Hi Hi;
 
         //flags for robustness and testing
         private bool _initialized = false;
@@ -52,20 +55,23 @@ namespace RaspberryBackend
                 );
         }
 
-        private void initiateStartUpConfigurationAsync()
+        private async Task initiateStartUpConfigurationAsync()
         {
             Control.Multiplexer.setResetPin(Control.GPIOinterface.getPin(GpioMap.muxerResetPin));
-            setMulitplexerStartUpConfigAsync().Wait();
+
+            Hi = await StorageHandler<Hi>.Load(StorageCfgs.FileName_HiCfg);
+
+            setMulitplexerStartUpConfig();
+
+            Task.Delay(1500).Wait();
             Control.updateLCD();
         }
 
-        private async System.Threading.Tasks.Task setMulitplexerStartUpConfigAsync()
+        private void setMulitplexerStartUpConfig()
         {
-            Hi Hi = await StorageHandler<Hi>.Load(StorageCfgs.FileName_HiCfg);
-
-            if (Hi.Family != null)
+            if (Hi?.Family != null)
             {
-                Control.setMultiplexerConfiguration(Hi.Family, Hi.Family);
+                Control.setMultiplexerConfiguration(Hi.Family, Hi.Model);
             }
             else
             {
