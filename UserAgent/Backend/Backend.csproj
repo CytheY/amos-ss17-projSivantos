@@ -112,6 +112,9 @@
     <Compile Include="..\CommonFiles\RPCInterfaces\IEventReceiver.cs">
       <Link>CommonFiles\RPCInterfaces\IEventReceiver.cs</Link>
     </Compile>
+    <Compile Include="..\CommonFiles\TransferObjects\Hi.cs">
+      <Link>CommonFiles\TransferObjects\Hi.cs</Link>
+    </Compile>
     <Compile Include="..\CommonFiles\TransferObjects\Request.cs">
       <Link>CommonFiles\TransferObjects\Request.cs</Link>
     </Compile>
@@ -124,12 +127,11 @@
     <Compile Include="Components\RaspberryPi.cs" />
     <Compile Include="Components\Operations.cs" />
     <Compile Include="Components\ServerStub.cs" />
-    <Compile Include="Config\storage\StorageCfgs.cs" />
     <Compile Include="Config\GpioMap.cs" />
-    <Compile Include="Config\storage\Hi.cs" />
     <Compile Include="Config\parser\HiXmlParser.cs" />
     <Compile Include="Config\MultiplexerConfig.cs" />
     <Compile Include="Config\ReceiverConfig.cs" />
+    <Compile Include="Config\storage\StorageCfgs.cs" />
     <Compile Include="Config\storage\StorageHandler.cs" />
     <Compile Include="Config\XPinConfig.cs" />
     <Compile Include="Config\YPinConfig.cs" />
