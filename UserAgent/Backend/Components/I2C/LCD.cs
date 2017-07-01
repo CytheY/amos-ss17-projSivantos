@@ -254,11 +254,6 @@ namespace RaspberryBackend
 
         }
 
-        //========================================================================================================
-        //======================== The Following methods are not used by this class ==============================
-        //======================== and shoul be moved to Commands                   ==============================
-        //========================================================================================================
-
         /// <summary>
         /// Save custom symbol to CGRAM
         /// </summary>
@@ -284,16 +279,6 @@ namespace RaspberryBackend
             write(address, Data_sendMode);
         }
 
-        public async Task print(string ip, List<string> status)
-        {
-            foreach (string statu in status)
-            {
-                clrscr();
-                printInTwoLines(ip, statu);
-                Task.Delay(5000).Wait();
-            }
 
-            printInTwoLines(ip, status[0]);
-        }
     }
 }

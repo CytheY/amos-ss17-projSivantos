@@ -62,7 +62,6 @@ namespace RaspberryBackend
             //string isConnected = (RasPi.skeleton.getClientCount() != 0) ? "Con" : "X";
             //string print = ip + " " + isConnected + " " + currentReceiver + " " + status + " " + vbat + "V " + hi;
 
-
             List<string> status = new List<string>
             {
                 "HiModel: " +StorageCfgs.Hi.Model,
@@ -72,7 +71,23 @@ namespace RaspberryBackend
                 (RasPi.skeleton.getClientCount() != 0) ? "Con" : "X",
             };
 
-            Task.Run(() => this.LCD.print(ip, status));
+            System.Diagnostics.Debug.WriteLine("\n Prepair Writing asynch on LCD... \n");
+            Task.Run(() => print(ip, status));
+        }
+
+        public async Task print(string ip, List<string> status)
+        {
+
+            foreach (string statu in status)
+            {
+                LCD.clrscr();
+                LCD.printInTwoLines(ip, statu);
+                System.Diagnostics.Debug.WriteLine("Writing on LCD: \n {0} \n {1} \n", ip, statu);
+                Task.Delay(5000).Wait();
+            }
+
+            System.Diagnostics.Debug.WriteLine("Writing on LCD: \n {0} \n {1} \n", ip, StorageCfgs.Hi.Model);
+            LCD.printInTwoLines(ip, StorageCfgs.Hi.Model);
         }
     }
 }

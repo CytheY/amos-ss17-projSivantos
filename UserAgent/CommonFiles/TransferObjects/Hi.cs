@@ -21,5 +21,9 @@ namespace RaspberryBackend
         public string Model { get; set; }
 
 
+        public override string ToString()
+        {
+            return "Family : " + Family + " \n Model: " + Model + " \n CurrentReceiver:" + CurrentReceiver + " \n";
+        }
     }
 }

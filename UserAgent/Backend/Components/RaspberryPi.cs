@@ -64,7 +64,7 @@ namespace RaspberryBackend
 
             setMulitplexerStartUpConfig();
 
-            Task.Delay(1500).Wait();
+            //Task.Delay(1500).Wait(); //Uncomment if LCD does not update on startup
             Control.updateLCD();
         }
 
