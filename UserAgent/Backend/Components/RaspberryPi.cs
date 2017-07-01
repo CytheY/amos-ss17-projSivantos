@@ -26,7 +26,8 @@ namespace RaspberryBackend
         private RaspberryPi() { }
         public static RaspberryPi Instance { get; } = new RaspberryPi();
 
-        private Hi Hi;
+
+        private Hi HiInfo;
 
         //flags for robustness and testing
         private bool _initialized = false;
@@ -59,7 +60,7 @@ namespace RaspberryBackend
         {
             Control.Multiplexer.setResetPin(Control.GPIOinterface.getPin(GpioMap.muxerResetPin));
 
-            Hi = await StorageHandler<Hi>.Load(StorageCfgs.FileName_HiCfg);
+            HiInfo = await StorageHandler<Hi>.Load(StorageCfgs.FileName_HiCfg);
 
             setMulitplexerStartUpConfig();
 
@@ -69,9 +70,9 @@ namespace RaspberryBackend
 
         private void setMulitplexerStartUpConfig()
         {
-            if (Hi?.Family != null)
+            if (HiInfo?.Family != null)
             {
-                Control.setMultiplexerConfiguration(Hi.Family, Hi.Model);
+                Control.setMultiplexerConfiguration(HiInfo.Family, HiInfo.Model);
             }
             else
             {

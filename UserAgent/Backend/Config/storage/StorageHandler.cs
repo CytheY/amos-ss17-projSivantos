@@ -13,6 +13,13 @@ namespace RaspberryBackend
     /// <typeparam name="T">Type parameter to be serialize</typeparam>
     public static class StorageHandler<T> where T : new()
     {
+
+        /// <summary>
+        /// Can be used to save an arbitary DataType to an arbitary Filename. For now it is used to Save the current information of the HI.
+        /// </summary>
+        /// <param name="FileName">The name of the File which shall be saved. For generic names use <see cref="StorageCfgs"/> </param>
+        /// <param name="_Data"> The serializable Object whish shall be the content of the Fole. <see cref="Hi"/></param>
+        /// <returns>The Task which can be used for waiting to be finisched </returns>
         public static async Task Save(string FileName, T _Data)
         {
             MemoryStream _MemoryStream = new MemoryStream();
@@ -20,10 +27,10 @@ namespace RaspberryBackend
             Serializer.WriteObject(_MemoryStream, _Data);
 
             Task.WaitAll();
-
+            //Windows user documents folder
             StorageFolder docfolder = await KnownFolders.GetFolderForUserAsync(null, KnownFolderId.DocumentsLibrary);
-            StorageFolder folder = await docfolder.CreateFolderAsync(StorageCfgs.FolderName_Cfgs, CreationCollisionOption.OpenIfExists);
-            StorageFile _File = await folder.CreateFileAsync(FileName, CreationCollisionOption.ReplaceExisting);
+            StorageFolder storageFolder = await docfolder.CreateFolderAsync(StorageCfgs.StorageFolder_Cfgs, CreationCollisionOption.OpenIfExists);
+            StorageFile _File = await storageFolder.CreateFileAsync(FileName, CreationCollisionOption.ReplaceExisting);
 
 
             using (Stream fileStream = await _File.OpenStreamForWriteAsync())
@@ -35,11 +42,18 @@ namespace RaspberryBackend
             }
         }
 
-
+        /// <summary>
+        /// Can be used to load an arbitary DataType to an arbitary Filename. For now it is used to load the current information of the HI.
+        /// </summary>
+        /// <param name="FileName">The name of the File which shall be loaded. For generic names use <see cref="StorageCfgs"/> </param>
+        /// <returns>
+        /// Returns the Type which was defined as the Generig Parameter T. If it exists, it content will be taken from file.
+        /// If the file could not be found it will return a new empty Type.
+        /// </returns>
         public static async Task<T> Load(string FileName)
         {
             StorageFolder docfolder = await KnownFolders.GetFolderForUserAsync(null, KnownFolderId.DocumentsLibrary);
-            StorageFolder _Folder = await docfolder.CreateFolderAsync(StorageCfgs.FolderName_Cfgs, CreationCollisionOption.OpenIfExists);
+            StorageFolder storageFolder = await docfolder.CreateFolderAsync(StorageCfgs.StorageFolder_Cfgs, CreationCollisionOption.OpenIfExists);
 
             StorageFile _File;
             T Result;
@@ -47,7 +61,7 @@ namespace RaspberryBackend
             try
             {
                 Task.WaitAll();
-                _File = await _Folder.GetFileAsync(FileName);
+                _File = await storageFolder.GetFileAsync(FileName);
 
                 using (Stream stream = await _File.OpenStreamForReadAsync())
                 {
