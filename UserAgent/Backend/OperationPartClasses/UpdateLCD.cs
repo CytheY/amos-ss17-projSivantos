@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
+using System.Threading.Tasks;
 
 namespace RaspberryBackend
 {
@@ -48,18 +49,30 @@ namespace RaspberryBackend
         /// </summary>
         public void updateLCD()
         {
+            if (RasPi.isTestMode()) return;
+
             LCD.resetLCD();
             this.setLCDBackgroundState(0x01);
 
             string ip = GetIpAddressAsync();
-            string hi = MultiplexerConfig.HiModel;
-            string currentReceiver = ReceiverConfig.CurrentReceiver;
-            string status = (RasPi.isInitialized()) ? "On" : "Off";
-            string vbat = ADConverter.getDACVoltage1().ToString();
-            string isConnected = (RasPi.skeleton.getClientCount() != 0) ? "Con" : "X";
-            string print = ip + " " + isConnected + " " + currentReceiver + " " + status + " " + vbat + "V " + hi;
+            //string hi = StorageCfgs.Hi.Model;
+            //string currentReceiver = StorageCfgs.Hi.CurrentReceiver;
+            //string status = (RasPi.isInitialized()) ? "On" : "Off";
+            //string vbat = ADConverter.getDACVoltage1().ToString();
+            //string isConnected = (RasPi.skeleton.getClientCount() != 0) ? "Con" : "X";
+            //string print = ip + " " + isConnected + " " + currentReceiver + " " + status + " " + vbat + "V " + hi;
 
-            this.LCD.printInTwoLines(print);
+
+            List<string> status = new List<string>
+            {
+                "HiModel: " +StorageCfgs.Hi.Model,
+                "Receiver : " + StorageCfgs.Hi.CurrentReceiver,
+                (RasPi.isInitialized()) ? "RasPi On" : "RasPi Off",
+                "Volt: " +ADConverter.getDACVoltage1().ToString(),
+                (RasPi.skeleton.getClientCount() != 0) ? "Con" : "X",
+            };
+
+            Task.Run(() => this.LCD.print(ip, status));
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -151,6 +152,20 @@ namespace RaspberryBackend
             prints(line2);
         }
 
+
+        /// <summary>
+        /// prints text in two lines
+        /// </summary>
+        /// <param name="text">text which shall be displayed</param>
+        /// <param name="charsMaxInLine">determines the maximum chars on a line</param>
+        public void printInTwoLines(string textLine1, string textLine2)
+        {
+            prints(textLine1);
+            gotoSecondLine();
+            prints(textLine2);
+        }
+
+
         /// <summary>
         /// pints text in two lines
         /// </summary>
@@ -267,6 +282,18 @@ namespace RaspberryBackend
         public void printSymbol(byte address)
         {
             write(address, Data_sendMode);
+        }
+
+        public async Task print(string ip, List<string> status)
+        {
+            foreach (string statu in status)
+            {
+                clrscr();
+                printInTwoLines(ip, statu);
+                Task.Delay(5000).Wait();
+            }
+
+            printInTwoLines(ip, status[0]);
         }
     }
 }
