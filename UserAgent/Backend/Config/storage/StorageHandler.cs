@@ -13,7 +13,9 @@ namespace RaspberryBackend
     /// <typeparam name="T">Type parameter to be serialize</typeparam>
     public static class StorageHandler<T> where T : new()
     {
+        private static bool folderExists;
 
+        private static StorageFolder storageFolder;
         /// <summary>
         /// Can be used to save an arbitary DataType to an arbitary Filename. For now it is used to Save the current information of the HI.
         /// </summary>
@@ -27,11 +29,22 @@ namespace RaspberryBackend
             Serializer.WriteObject(_MemoryStream, _Data);
 
             Task.WaitAll();
-            //Windows user documents folder
-            StorageFolder docfolder = await KnownFolders.GetFolderForUserAsync(null, KnownFolderId.DocumentsLibrary);
-            StorageFolder storageFolder = await docfolder.CreateFolderAsync(StorageCfgs.StorageFolder_Cfgs, CreationCollisionOption.OpenIfExists);
-            StorageFile _File = await storageFolder.CreateFileAsync(FileName, CreationCollisionOption.ReplaceExisting);
 
+            if (!folderExists)
+            {
+                System.Diagnostics.Debug.WriteLine("\n Storage Folder is going to be initialized... \n");
+                //Windows user documents folder
+                StorageFolder docfolder = await KnownFolders.GetFolderForUserAsync(null, KnownFolderId.DocumentsLibrary);
+                storageFolder = await docfolder.CreateFolderAsync(StorageCfgs.StorageFolder_Cfgs, CreationCollisionOption.OpenIfExists);
+                folderExists = storageFolder != null;
+                System.Diagnostics.Debug.WriteLine(folderExists ? "\n ...Storage Folder initialized \n" : "\n ...Storage Folder initialization FAILED \n");
+            }
+
+            System.Diagnostics.Debug.WriteLine("\n Saving File {0} , in {1} : ", FileName, folderExists ? storageFolder.Path : " NOWHERE! ");
+            System.Diagnostics.Debug.WriteLine("\n Data Content to be saved: \n " + _Data.ToString());
+
+
+            StorageFile _File = await storageFolder.CreateFileAsync(FileName, CreationCollisionOption.ReplaceExisting);
 
             using (Stream fileStream = await _File.OpenStreamForWriteAsync())
             {
@@ -39,6 +52,8 @@ namespace RaspberryBackend
                 await _MemoryStream.CopyToAsync(fileStream);
                 await fileStream.FlushAsync();
                 fileStream.Dispose();
+
+                System.Diagnostics.Debug.WriteLine("\n ...Data Content saved! \n ");
             }
         }
 
@@ -52,8 +67,15 @@ namespace RaspberryBackend
         /// </returns>
         public static async Task<T> Load(string FileName)
         {
-            StorageFolder docfolder = await KnownFolders.GetFolderForUserAsync(null, KnownFolderId.DocumentsLibrary);
-            StorageFolder storageFolder = await docfolder.CreateFolderAsync(StorageCfgs.StorageFolder_Cfgs, CreationCollisionOption.OpenIfExists);
+            if (!folderExists)
+            {
+                System.Diagnostics.Debug.WriteLine("\n Storage Folder is going to be initialized... \n");
+                StorageFolder docfolder = await KnownFolders.GetFolderForUserAsync(null, KnownFolderId.DocumentsLibrary);
+                storageFolder = await docfolder.CreateFolderAsync(StorageCfgs.StorageFolder_Cfgs, CreationCollisionOption.OpenIfExists);
+                folderExists = storageFolder != null;
+                System.Diagnostics.Debug.WriteLine(folderExists ? "\n ...Storage Folder initialized \n" : "\n ...Storage Folder initialization FAILED! \n");
+
+            }
 
             StorageFile _File;
             T Result;
@@ -61,14 +83,17 @@ namespace RaspberryBackend
             try
             {
                 Task.WaitAll();
+                System.Diagnostics.Debug.WriteLine("\n Loading File {0} , in {1}: \n ", FileName, folderExists ? storageFolder.Path : " NOWHERE! ");
+
                 _File = await storageFolder.GetFileAsync(FileName);
+
 
                 using (Stream stream = await _File.OpenStreamForReadAsync())
                 {
                     DataContractSerializer Serializer = new DataContractSerializer(typeof(T));
-
                     Result = (T)Serializer.ReadObject(stream);
 
+                    System.Diagnostics.Debug.WriteLine("\n Data Content to be loaded: \n " + Result.ToString());
                 }
                 return Result;
             }
