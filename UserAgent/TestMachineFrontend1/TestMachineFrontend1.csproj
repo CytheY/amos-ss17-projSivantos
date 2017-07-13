@@ -64,6 +64,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\AddDebugInfoCommand.cs" />
+    <Compile Include="Commands\CheckLEDStatusCommand.cs" />
     <Compile Include="Commands\ConnectIPCommand.cs" />
     <Compile Include="Commands\EndlessVcCommand.cs" />
     <Compile Include="Commands\GetDurationCommand.cs" />

@@ -160,6 +160,17 @@ namespace TestMachineFrontend1.ViewModel
             }
         }
 
+        private bool _checkLedOn;
+        public bool isLEDOn
+        {
+            get { return _checkLedOn; }
+            set
+            {
+                _checkLedOn = value;
+                OnPropertyChanged("isLEDOn");
+            }
+        }
+
         public Request PressPushButton
         {
             get { return new Request("PressPushButton", getDuration()); }
@@ -188,6 +199,11 @@ namespace TestMachineFrontend1.ViewModel
         public Request DetectAudioShoe
         {
             get { return new Request("EnableAudioShoe", 1); }
+        }
+
+        public Request CheckLEDStatus
+        {
+            get { return new Request("CheckLEDStatus", 1); }
         }
 
         public Request UndetectAudioShoe

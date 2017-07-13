@@ -36,7 +36,7 @@ namespace RaspberryBackend
             //registerAsync();
 
             // set up the skeleton
-            runServerStubsAsync();
+            //runServerStubsAsync();
 
             ServerSkeleton raspberryPiSkeleton = new ServerSkeleton(raspberryPi.Control, 54321);
             raspberryPi.setSkeleton(raspberryPiSkeleton);

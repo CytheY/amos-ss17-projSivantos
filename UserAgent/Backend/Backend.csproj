@@ -145,6 +145,7 @@
     <Compile Include="OperationPartClasses\PressCombination.cs" />
     <Compile Include="OperationPartClasses\PressPushButton.cs" />
     <Compile Include="OperationPartClasses\PressRockerSwitch.cs" />
+    <Compile Include="OperationPartClasses\ReadLEDStatus.cs" />
     <Compile Include="OperationPartClasses\ReadPin.cs" />
     <Compile Include="OperationPartClasses\ResetMux.cs" />
     <Compile Include="OperationPartClasses\ResetPin.cs" />
