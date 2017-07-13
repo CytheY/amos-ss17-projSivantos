@@ -47,6 +47,7 @@ namespace RaspberryBackend
          * e.g. by an error such as a physical bitshift.
          * -> Use actual hardware read-back in future. */
         public StringBuilder CurrentText { get; private set; } = new StringBuilder();
+        public string CurrentTextPlainString { get; set; }
 
         public int getMaxLength()
         {
