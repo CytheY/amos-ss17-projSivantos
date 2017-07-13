@@ -22,6 +22,18 @@ namespace TestMachineFrontend1.ViewModel
         #region Properties
         public string PinID { get; set; }
 
+        private string raspiConfigString;
+
+        public string RaspiConfigString
+        {
+            get { return raspiConfigString; }
+            set
+            {
+                raspiConfigString = value;
+                OnPropertyChanged("RaspiConfigString");
+            }
+        }
+
         private string ipAdressConnect;
         public string IPAdressConnect
         {
@@ -58,6 +70,16 @@ namespace TestMachineFrontend1.ViewModel
         public Request ConnectPins
         {
             get { return new Request("ConnectPins", 0); }
+        }
+
+        public Request ReadRaspiConfigAsXML
+        {
+            get { return new Request("ReadRaspiConfigAsXML", 0); }
+        }
+
+        public Request ReadRaspiConfigAsString
+        {
+            get { return new Request("ReadRaspiConfigAsString", 0); }
         }
 
         public Request ReadPin

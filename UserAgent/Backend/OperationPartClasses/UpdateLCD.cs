@@ -47,7 +47,7 @@ namespace RaspberryBackend
 
         private byte[] getBatterySymbol()
         {
-            double batstatus = this.ADConverter.getDACVoltage1() / this.ADConverter.getMaxVoltage();
+            double batstatus = this.ADConverter.CurrentDACVoltage1 / this.ADConverter.getMaxVoltage();
             byte[] data = SymbolConfig.batterySymbol;
 
             for (int i = 1; i <= 6; i++)
@@ -90,6 +90,7 @@ namespace RaspberryBackend
             string currentReceiver = StorageCfgs.Hi.CurrentReceiver;
             string print = ip + " " + currentReceiver + " " + hi;
 
+            LCD.CurrentTextPlainString = print;
             this.LCD.createSymbol(this.getBatterySymbol(), SymbolConfig.batterySymbolAddress);
             this.LCD.createSymbol(this.getInitSymbol(RasPi.isInitialized()), SymbolConfig.initSymbolAddress);
             this.LCD.printInTwoLines(print);

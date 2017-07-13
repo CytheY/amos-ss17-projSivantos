@@ -21,26 +21,26 @@
 
         <!--TextBox for entering the IP-Adress of a device-->
 
-        <Button x:Name="readPin_button" Margin="209,151,269,237" Content="Read pin" 
+        <Button x:Name="readPin_button" Margin="74,76,404,312" Content="Read pin" 
                 Command="{Binding SendRequestCommand}" 
                 CommandParameter="{Binding Path=CurrentViewModelDetectTab.ReadPin}" />
-        
-        <Button x:Name="writePin_button" Margin="291,151,191,237" Content="Write pin" 
+
+        <Button x:Name="writePin_button" Margin="156,76,326,312" Content="Write pin" 
                 Command="{Binding SendRequestCommand}" 
                 CommandParameter="{Binding Path=CurrentViewModelDetectTab.WritePin}" />
-        
-        <TextBox Margin="144,151,354,237" TextAlignment="Center" 
+
+        <TextBox Margin="9,76,489,312" TextAlignment="Center" 
                  Text="{Binding Path=CurrentViewModelDetectTab.PinID}" />
 
-        <Button x:Name="reset_button" Margin="367,151,116,237" Content="Reset" 
+        <Button x:Name="reset_button" Margin="232,76,251,312" Content="Reset" 
                 Command="{Binding SendRequestCommand}" 
                 CommandParameter="{Binding Path=CurrentViewModelDetectTab.ResetPin}" />
 
-        <Button x:Name="ledON_button" Margin="144,85,317,307" Content="LED ON" 
+        <Button x:Name="ledON_button" Margin="9,10,452,382" Content="LED ON" 
                 Command="{Binding SendRequestCommand}" 
                 CommandParameter="{Binding Path=CurrentViewModelDetectTab.RequestLEDOn}"/>
 
-        <Button x:Name="ledOFF_button" Margin="266,85,209,307" Content="LED OFF"  
+        <Button x:Name="ledOFF_button" Margin="131,10,344,382" Content="LED OFF"  
                 Command="{Binding SendRequestCommand}" 
                 CommandParameter="{Binding Path=CurrentViewModelDetectTab.RequestLEDOff}" />
 
@@ -62,11 +62,16 @@
 
         <TextBlock Margin="531,348,9,42"><Run Text="V"/></TextBlock>
 
-        
+
         <Button x:Name="connect_Pins" Content="Mux55" HorizontalAlignment="Left" 
-                Margin="372,85,0,0" VerticalAlignment="Top" Width="58" Height="26" 
+                Margin="237,10,0,0" VerticalAlignment="Top" Width="58" Height="26" 
                 Command="{Binding SendRequestCommand}" 
                 CommandParameter="{Binding Path=CurrentViewModelDetectTab.ConnectPins}" />
+
+        <TextBox x:Name="ConfigTextBox" HorizontalAlignment="Left" Height="171" Margin="10,120,0,0" TextWrapping="Wrap" Text="{Binding CurrentViewModelDetectTab.RaspiConfigString}" VerticalAlignment="Top" Width="420"/>
+        <Button x:Name="ReadRaspiConfigButton" Content="Read Raspi Config" HorizontalAlignment="Left" Margin="10,296,0,0" VerticalAlignment="Top" Width="113"
+                Command="{Binding ReadRaspiConfigCommand}" 
+                CommandParameter="{Binding Path=CurrentViewModelDetectTab.ReadRaspiConfigAsString}"/>
 
         <!--IsChecked="{Binding ElementName=MainWindow, Path=IsCheckBoxChecked}"-->
     </Grid>
