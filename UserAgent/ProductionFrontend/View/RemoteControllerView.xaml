@@ -1,10 +1,10 @@
-﻿<UserControl x:Class="TestMachineFrontend1.View.RemoteControllerView"
+﻿<UserControl x:Class="Frontend.View.RemoteControllerView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:vm="clr-namespace:TestMachineFrontend1.ViewModel"
-             xmlns:local="clr-namespace:TestMachineFrontend1.View"
+             xmlns:vm="clr-namespace:Frontend.ViewModel"
+             xmlns:local="clr-namespace:Frontend.View"
              mc:Ignorable="d">
 
     <UserControl.DataContext>
@@ -605,7 +605,7 @@
                                              TickPlacement="TopLeft" IsSnapToTickEnabled="True" TickFrequency="1" 
                                              Width="120" Height="25"
                                              Value="{Binding Path=CurrentViewModelRemoteController.CurrentVolumeLevel}"
-                                             ValueChanged="SetVolume_Slider_OnValueChanged"/>
+                                             Thumb.DragCompleted="SetVolume_Slider_DragCompleted"/>
                                     <Label  Content="127" HorizontalContentAlignment="Center" FontSize="8" FontWeight="Bold" Foreground="#FF323C46" />
                                 </StackPanel>
 
@@ -655,7 +655,7 @@
                                          IsSnapToTickEnabled="True"
                                          TickFrequency="0.1"
                                          Value="{Binding Path=CurrentViewModelRemoteController.CurrentPowerVoltage}"
-                                         ValueChanged="Power_Slider_OnValueChanged" Width="100" Height="25" />
+                                         Thumb.DragCompleted="Power_Slider_DragCompleted"  Width="100" Height="25" />
                                 <Label  Content="1,5 V" HorizontalContentAlignment="Center" FontSize="8" FontWeight="Bold" Foreground="#FF323C46" />
                                 <Border Margin="10,0" VerticalAlignment="Stretch" Width="1px" Background="#FFE1E8EE"/>
                                 <StackPanel Orientation="Horizontal" Width="59">
